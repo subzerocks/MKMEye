@@ -12,10 +12,3 @@ C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DirectX.Capture\bin\Deb
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DirectX.Capture\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DirectX.Capture\obj\Debug\DirectX.Capture.dll
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DirectX.Capture\obj\Debug\DirectX.Capture.pdb
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\bin\Debug\DirectX.Capture.dll
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\bin\Debug\DirectX.Capture.pdb
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\bin\Debug\DShowNET.dll
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\bin\Debug\DShowNET.pdb
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.csprojResolveAssemblyReference.cache
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.dll
-C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.pdb
