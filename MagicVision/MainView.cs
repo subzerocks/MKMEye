@@ -1,6 +1,41 @@
-﻿/* Magic Vision
- * Created by Peter Simard
- * You are free to use this source code any way you wish, all I ask for is an attribution
+﻿/*
+	Magic Vision - MKM Edition 
+
+	Magic Vision - MKM Edition developed by Alexander Pick - Copyright 2017
+	Original Magic Vision Created by Peter Simard - Copyright 2010
+
+	This file is part of MKMTool
+ 
+	MagicVision MKM Edition is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    MagicVision MKM Edition is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with MagicVision MKM Edition.  If not, see <http://www.gnu.org/licenses/>.
+
+    Diese Datei ist Teil von MagicVision MKM Edition.
+
+    MagicVision MKM Edition ist Freie Software: Sie können es unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
+    veröffentlichten Version, weiterverbreiten und/oder modifizieren.
+    Fubar wird in der Hoffnung, dass es nützlich sein wird, aber
+    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Details.
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
+*/
+
+/* Original Magic Vision - Created by Peter Simard
+ * Further developed by Alexander Pick
+ * 
+ * You are free to use this source code any way you wish, all I ask for is an attribution (Peter Simard)
+ * 
  */
 
 using System;
@@ -11,6 +46,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
@@ -23,15 +59,7 @@ namespace MagicVision
     public partial class MainView : Form
     {
         private static readonly object _locker = new object();
-
-        // all itnernal, nothing to see here :)
-        public static string SqlConString = "server=192.168.178.2;" +
-                                            "port=3306;" +
-                                            "database=magiccards;" +
-                                            "uid=mtgUser;" +
-                                            "pwd=6uSzZ7vbjIZCWo3m2jXJ;" +
-                                            "Allow Zero Datetime=true;";
-
+       
         private Bitmap cameraBitmap;
         private Bitmap cameraBitmapLive;
         private readonly Filters cameraFilters = new Filters();
@@ -44,11 +72,44 @@ namespace MagicVision
         private readonly string refCardDir = @".\\refimages\";
         private readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
 
-        public MySqlClient sql = new MySqlClient(SqlConString);
+        public MySqlClient sql; 
 
         public MainView()
         {
             InitializeComponent();
+
+            if (!File.Exists(@".\\sqlconfig.xml"))
+            {
+                MessageBox.Show("Config File missing! Please read the manual.");
+
+                Application.Exit();
+            }
+
+            try
+            {
+
+                XmlDocument xConfigFile = new XmlDocument();
+
+                xConfigFile.Load(@".\\sqlconfig.xml");
+
+                string SqlConString = "server=" + xConfigFile.SelectSingleNode("/mysql/host").InnerText + ";" +
+                                         "port=" + xConfigFile.SelectSingleNode("/mysql/port").InnerText + ";" +
+                                         "database=" + xConfigFile.SelectSingleNode("/mysql/database").InnerText + ";" +
+                                         "uid=" + xConfigFile.SelectSingleNode("/mysql/username").InnerText + ";" +
+                                         "pwd=" + xConfigFile.SelectSingleNode("/mysql/password").InnerText + ";" +
+                                         "Allow Zero Datetime=true;";
+
+                sql = new MySqlClient(SqlConString);
+            }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.ToString());
+                
+
+                throw;
+            }
+
         }
 
         private void hashCalcButton_Click(object sender, EventArgs e)

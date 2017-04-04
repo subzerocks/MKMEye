@@ -1,4 +1,6 @@
-﻿/*
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
 	Magic Vision - MKM Edition 
 
 	Magic Vision - MKM Edition developed by Alexander Pick - Copyright 2017
@@ -29,16 +31,13 @@
     Siehe die GNU General Public License für weitere Details.
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
-*/
-using System.Data;
 
-namespace MagicVision
-{
-    internal class ReferenceCard
-    {
-        public string cardId;
-        public DataRow dataRow;
-        public string name;
-        public ulong pHash;
-    }
-}
+-->
+
+<mysql>
+  <host>localhost</host>
+  <port>3306</port>
+  <username></username>
+  <password></password>
+  <database>magiccards</database>
+</mysql>
