@@ -13,3 +13,7 @@ C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DShowNET\bin\Debug\DShowNET
 C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DShowNET\obj\Debug\DShowNET.csprojResolveAssemblyReference.cache
 C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DShowNET\obj\Debug\DShowNET.dll
 C:\Users\10110\Source\Repos\Magic-Vision\MagicVision\DShowNET\obj\Debug\DShowNET.pdb
+C:\Users\alexa\Source\Repos\Magic-Vision\MagicVision\DShowNET\bin\Debug\DShowNET.dll
+C:\Users\alexa\Source\Repos\Magic-Vision\MagicVision\DShowNET\bin\Debug\DShowNET.pdb
+C:\Users\alexa\Source\Repos\Magic-Vision\MagicVision\DShowNET\obj\Debug\DShowNET.dll
+C:\Users\alexa\Source\Repos\Magic-Vision\MagicVision\DShowNET\obj\Debug\DShowNET.pdb

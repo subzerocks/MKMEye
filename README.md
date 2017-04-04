@@ -8,3 +8,6 @@ https://www.reddit.com/r/magicTCG/comments/lccrx/full_source_code_of_the_mtg_car
 
 There is a little development using this source of some guys who build a mind storm robot to scan cards, they als have a nice and handy reference db:
 https://github.com/silasary/Magic-Vision/
+
+Source for the JSON used by the scraper to get the multiverseid needed for the gatherer image download:
+https://mtgjson.com/

@@ -45,6 +45,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml;
 using AForge;
@@ -59,7 +60,7 @@ namespace MagicVision
     public partial class MainView : Form
     {
         private static readonly object _locker = new object();
-       
+
         private Bitmap cameraBitmap;
         private Bitmap cameraBitmapLive;
         private readonly Filters cameraFilters = new Filters();
@@ -72,7 +73,7 @@ namespace MagicVision
         private readonly string refCardDir = @".\\refimages\";
         private readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
 
-        public MySqlClient sql; 
+        public MySqlClient sql;
 
         public MainView()
         {
@@ -105,7 +106,7 @@ namespace MagicVision
             {
 
                 MessageBox.Show(e.ToString());
-                
+
 
                 throw;
             }
@@ -117,11 +118,16 @@ namespace MagicVision
             if (!Directory.Exists(refCardDir))
             {
                 Directory.CreateDirectory(refCardDir);
+                MessageBox.Show(
+                    "Reference Directory is empty, creating it...\n" +
+                    " Please put your Referencecard images in there before trying this function again.");
+
+                return;
             }
 
             foreach (var card in referenceCards)
             {
-                Phash.ph_dct_imagehash(refCardDir + (string) card.dataRow["Set"] + "\\" + card.cardId + ".jpg",
+                Phash.ph_dct_imagehash(refCardDir + (string)card.dataRow["Set"] + "\\" + card.cardId + ".jpg",
                     ref card.pHash);
                 sql.dbNone("UPDATE cards SET pHash=" + card.pHash + " WHERE id=" + card.cardId);
             }
@@ -129,7 +135,7 @@ namespace MagicVision
 
         private double GetDeterminant(double x1, double y1, double x2, double y2)
         {
-            return x1*y2 - x2*y1;
+            return x1 * y2 - x2 * y1;
         }
 
         private double GetArea(IList<IntPoint> vertices)
@@ -144,7 +150,7 @@ namespace MagicVision
             {
                 area += GetDeterminant(vertices[i - 1].X, vertices[i - 1].Y, vertices[i].X, vertices[i].Y);
             }
-            return area/2;
+            return area / 2;
         }
 
         private void detectQuads(Bitmap bitmap)
@@ -163,7 +169,6 @@ namespace MagicVision
             var bitmapData = filteredBitmap.LockBits(
                 new Rectangle(0, 0, filteredBitmap.Width, filteredBitmap.Height),
                 ImageLockMode.ReadWrite, filteredBitmap.PixelFormat);
-
 
             var blobCounter = new BlobCounter();
 
@@ -307,7 +312,7 @@ namespace MagicVision
         private void Form1_Load(object sender, EventArgs e)
         {
             cameraBitmap = new Bitmap(640, 480);
-            capture = new Capture(cameraFilters.VideoInputDevices[0], cameraFilters.AudioInputDevices[0]);
+            capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1], cameraFilters.AudioInputDevices[0]);
             var vc = capture.VideoCaps;
             capture.FrameSize = new Size(640, 480);
             capture.PreviewWindow = cam;
@@ -336,12 +341,15 @@ namespace MagicVision
 
         private void CaptureDone(Bitmap e)
         {
+
+            //Console.WriteLine("CaptureDone() called");
+
             lock (_locker)
             {
                 magicCardsLastFrame = new List<MagicCard>(magicCards);
                 magicCards.Clear();
                 cameraBitmap = e;
-                cameraBitmapLive = (Bitmap) cameraBitmap.Clone();
+                cameraBitmapLive = (Bitmap)cameraBitmap.Clone();
                 detectQuads(cameraBitmap);
                 matchCard();
 
@@ -352,6 +360,8 @@ namespace MagicVision
 
         private void matchCard()
         {
+            //Console.WriteLine("matchCard() called with " +  magicCards.Count + " cards detected");
+
             var cardTempId = 0;
             foreach (var card in magicCards)
             {
@@ -381,7 +391,7 @@ namespace MagicVision
                 if (bestMatch != null)
                 {
                     card.referenceCard = bestMatch;
-                    //Debug.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId.ToString());
+                    Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId.ToString());
 
                     var g = Graphics.FromImage(cameraBitmap);
                     g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Black,
@@ -389,6 +399,10 @@ namespace MagicVision
                     g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Yellow,
                         new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
                     g.Dispose();
+                }
+                else
+                {
+                    Console.WriteLine("No Best Match found!\n");
                 }
             }
         }
@@ -418,16 +432,61 @@ namespace MagicVision
                     if (rect.Contains(e.Location))
                     {
                         Debug.WriteLine(card.referenceCard.name);
-                        cardArtImage.Image = card.cardArtBitmap;
+                        /*cardArtImage.Image = card.cardArtBitmap;
                         cardImage.Image = card.cardBitmap;
 
                         cardInfo.Text = "Card Name: " + card.referenceCard.name + Environment.NewLine +
-                                        "Set: " + (string) card.referenceCard.dataRow["Set"] + Environment.NewLine +
-                                        "Type: " + (string) card.referenceCard.dataRow["Type"] + Environment.NewLine +
-                                        "Casting Cost: " + (string) card.referenceCard.dataRow["Cost"] +
+                                        "Set: " + (string)card.referenceCard.dataRow["Set"] + Environment.NewLine +
+                                        "Type: " + (string)card.referenceCard.dataRow["Type"] + Environment.NewLine +
+                                        "Casting Cost: " + (string)card.referenceCard.dataRow["Cost"] +
                                         Environment.NewLine +
-                                        "Rarity: " + (string) card.referenceCard.dataRow["Rarity"] + Environment.NewLine;
+                                        "Rarity: " + (string)card.referenceCard.dataRow["Rarity"] + Environment.NewLine;*/
                     }
+                }
+            }
+        }
+
+        private void downloadMultiverseImage(string sMultiverseId)
+        {
+            string imageUrl = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + sMultiverseId + "&type=card";
+
+            using (WebClient Client = new WebClient())
+            {
+                Client.DownloadFile(imageUrl, refCardDir + sMultiverseId + ".png");
+            }
+        }
+
+        private void downloadJson()
+        {
+            //https://mtgjson.com/json/AllCards.json.zip
+
+            string zipPath = @".\\alljson.zip";
+
+            using (WebClient Client = new WebClient())
+            {
+                Client.DownloadFile("https://mtgjson.com/json/AllCards.json.zip", zipPath);
+
+                //System.IO.Compression.ZipFile.ExtractToDirectory(zipPath, @".\\");
+            }
+        }
+
+        private void scrapeImagesButton_Click(object sender, EventArgs e)
+        {
+            downloadJson();
+            //scrape
+        }
+
+        private void startCaptureButton_Click(object sender, EventArgs e)
+        {
+            lock (_locker)
+            {
+                foreach (var card in magicCards)
+                {
+                    var rect = new Rectangle(card.corners[0].X, card.corners[0].Y, card.corners[1].X - card.corners[0].X,
+                        card.corners[2].Y - card.corners[1].Y);
+
+                    logBox.AppendText(card.referenceCard.name + " added to List\n");
+                    
                 }
             }
         }
