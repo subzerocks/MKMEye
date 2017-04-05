@@ -32,6 +32,7 @@
 */
 
 using System;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -52,21 +53,24 @@ namespace MKMEye
             InitializeComponent();
         }
 
+
+
         private void downloadMultiverseImage(string sMultiverseId)
         {
             var imageUrl = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + sMultiverseId +
                            "&type=card";
 
-            var imageLocal = Settings.refCardDir + sMultiverseId + ".png";
+            var imageLocalPNG = Settings.refCardDir + sMultiverseId + ".png";
+            var imageLocalJPG = Settings.refCardDir + sMultiverseId + ".jpg";
 
             using (var Client = new WebClient())
             {
-                Client.DownloadFile(imageUrl, imageLocal);
+                //Client.DownloadFile(imageUrl, imageLocalJPG);
             }
 
             ulong pHash = 0;
 
-            Phash.ph_dct_imagehash(imageLocal, ref pHash);
+            Phash.ph_dct_imagehash(imageLocalJPG, ref pHash);
 
             frm1.sql.dbNone("UPDATE cards SET pHash = '" + pHash + "' WHERE id = '" + sMultiverseId + "'");
         }
@@ -122,9 +126,13 @@ namespace MKMEye
 
                             //Console.WriteLine(sSQLString);
 
-                            frm1.sql.dbNone(sSQLString);
-
-                            downloadMultiverseImage(jcard["multiverseid"].ToString());
+                            
+                            if (jcard["multiverseid"].ToString() != "")
+                            {
+                                frm1.sql.dbNone(sSQLString);
+                                downloadMultiverseImage(jcard["multiverseid"].ToString());
+                            }
+                            
                         }
                         catch (Exception e)
                         {
@@ -188,7 +196,7 @@ namespace MKMEye
         private void updateDatabase_Click(object sender, EventArgs e)
         {
             purgeDB();
-            checkRefCardDir();
+            //checkRefCardDir();
             downloadJson();
         }
     }

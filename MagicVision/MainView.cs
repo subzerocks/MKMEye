@@ -72,11 +72,15 @@ namespace MKMEye
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
         public MySqlClient sql;
 
+        private string currentMatch = "";
+
         private XmlDocument xResult = new XmlDocument();
 
         public MainView()
         {
             InitializeComponent();
+
+            this.KeyPreview = true;
 
             if (!File.Exists(@".\\config.xml"))
             {
@@ -99,6 +103,27 @@ namespace MKMEye
                                    "Allow Zero Datetime=true;";
 
                 sql = new MySqlClient(SqlConString);
+
+                foreach (var Lang in MKM.dLanguages)
+                {
+                    try
+                    {
+                        var item = new MKM.ComboboxItem();
+
+                        item.Text = Lang.Value;
+                        item.Value = Lang.Key;
+
+                        langCombo.Items.Add(item);
+
+                        langCombo.SelectedIndex = 0;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }
+
+                conditionCombo.SelectedIndex = 1;
             }
             catch (Exception e)
             {
@@ -367,18 +392,20 @@ namespace MKMEye
                 if (bestMatch != null)
                 {
                     card.referenceCard = bestMatch;
-                    Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
+                    //Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
+
+                    currentMatch = bestMatch.name;
 
                     var g = Graphics.FromImage(cameraBitmap);
                     g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Black,
                         new PointF(card.corners[0].X - 29, card.corners[0].Y - 39));
-                    g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Yellow,
+                    g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Red,
                         new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
                     g.Dispose();
                 }
                 else
                 {
-                    Console.WriteLine("No Best Match found!\n");
+                    //Console.WriteLine("No Best Match found!\n");
                 }
             }
         }
@@ -399,29 +426,8 @@ namespace MKMEye
 
         private void camWindow_MouseClick(object sender, MouseEventArgs e)
         {
-            lock (_locker)
-            {
-                foreach (var card in magicCards)
-                {
-                    var rect = new Rectangle(card.corners[0].X, card.corners[0].Y, card.corners[1].X - card.corners[0].X,
-                        card.corners[2].Y - card.corners[1].Y);
-                    if (rect.Contains(e.Location))
-                    {
-                        Debug.WriteLine(card.referenceCard.name);
-                        /*cardArtImage.Image = card.cardArtBitmap;
-                        cardImage.Image = card.cardBitmap;
 
-                        cardInfo.Text = "Card Name: " + card.referenceCard.name + Environment.NewLine +
-                                        "Set: " + (string)card.referenceCard.dataRow["Set"] + Environment.NewLine +
-                                        "Type: " + (string)card.referenceCard.dataRow["Type"] + Environment.NewLine +
-                                        "Casting Cost: " + (string)card.referenceCard.dataRow["Cost"] +
-                                        Environment.NewLine +
-                                        "Rarity: " + (string)card.referenceCard.dataRow["Rarity"] + Environment.NewLine;*/
-                    }
-                }
-            }
         }
-
 
         private void optionsButton_Click(object sender, EventArgs e)
         {
@@ -431,14 +437,24 @@ namespace MKMEye
 
         private void MainView_keydDown(object sender, KeyEventArgs e)
         {
+            Console.WriteLine(e.KeyCode);
+
             if (e.KeyCode == Keys.Q)
             {
                 CheckMKM();
+                e.SuppressKeyPress = true;
             }
 
             if (e.KeyCode == Keys.W)
             {
-                //add card
+                loadProductAtIndex();
+                e.SuppressKeyPress = true;
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                addMKM();
+                loadProductAtIndex();
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -452,7 +468,14 @@ namespace MKMEye
             if (xResult.ChildNodes.Count != 0)
             {
                 // select next   
-                var xProduct = xResult.SelectSingleNode("/product[" + currentIndex + "]");
+                var count = xResult.GetElementsByTagName("product").Count;
+
+                if (currentIndex > count)
+                {
+                    currentIndex = 1;
+                }
+
+                var xProduct = xResult.SelectSingleNode("/response/product[" + currentIndex + "]");
 
                 currentIndex++;
 
@@ -464,7 +487,14 @@ namespace MKMEye
 
                 editionLabel.Text = xProduct["expansionName"].InnerText;
 
-                detectedCard.ImageLocation = "https://www.magickartenmarkt.de/" + xProduct["website"].InnerText;
+                string imageURL = "https://www.magickartenmarkt.de/" + xProduct["image"].InnerText;
+
+                Console.WriteLine(imageURL);
+
+                detectedCard.ImageLocation = imageURL;
+
+
+
             }
         }
 
@@ -472,7 +502,9 @@ namespace MKMEye
         {
             // https://www.mkmapi.eu/ws/v2.0/products/find?search=Springleaf&idGame=1&idLanguage=1
 
-            var sCardName = "Springleaf";
+            currentIndex = 1;
+
+            var sCardName = currentMatch;
             try
             {
                 xResult =
@@ -494,33 +526,26 @@ namespace MKMEye
             {
                 foreach (var card in magicCards)
                 {
-                    logBox.AppendText(card.referenceCard.name + " added to List\n");
+                    logBox.AppendText(pidLabel.Text + " " + nameLabel.Text + " (" + 
+                        (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() + "\\" +
+                        conditionCombo.Text + ")\n");
 
                     /*
                      3. Add an article to the user's stock:
 
                     POST https://www.mkmapi.eu/ws/v2.0/stock
-
-                    <?xml version="1.0" encoding="UTF-8" ?>
-                    <request>
-                        <article>
-                            <idProduct>100569</idProduct>
-                            <idLanguage>1</idLanguage>
-                            <comments>Inserted through the API</comments>
-                            <count>1</count>
-                            <price>4</price>
-                            <condition>EX</condition>
-                            <isFoil>true</isFoil>
-                            <isSigned>false</isSigned>
-                            <isPlayset>false</isPlayset>
-                        </article>
-                    </request>
-
                     */
 
-                    var xBody = "";
+                    var xBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                    "<request><article><idProduct>" + pidLabel.Text + "</idProduct><idLanguage>" +
+                    (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() +
+                    "</idLanguage>" +
+                    "<comments></comments><count>1</count><price>1982</price><condition>"+
+                    conditionCombo.Text +
+                    "</condition>" +
+                    "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";
 
-                    var xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=", "POST", xBody);
+                    MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
                 }
             }
         }
@@ -536,3 +561,4 @@ namespace MKMEye
         }
     }
 }
+ 
