@@ -437,25 +437,37 @@ namespace MKMEye
 
         private void MainView_keydDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.KeyCode);
 
-            if (e.KeyCode == Keys.Q)
+        }
+
+        //prevent multiple events
+        bool keystroke = false;
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            
+            Console.WriteLine(keyData.ToString());
+
+            if (keyData == Keys.Q)
             {
                 CheckMKM();
-                e.SuppressKeyPress = true;
+                keystroke = false;
             }
 
-            if (e.KeyCode == Keys.W)
+            if (keyData == Keys.W)
             {
                 loadProductAtIndex();
-                e.SuppressKeyPress = true;
             }
-            if (e.KeyCode == Keys.Enter)
+            if (keyData == Keys.S && !keystroke)
             {
                 addMKM();
-                loadProductAtIndex();
-                e.SuppressKeyPress = true;
+                keystroke = true;
             }
+
+            //return base.ProcessCmdKey(ref msg, keyData);
+
+            return true;
+
         }
 
         private void checkMKMButton_Click(object sender, EventArgs e)
@@ -522,10 +534,7 @@ namespace MKMEye
 
         private void addMKM()
         {
-            lock (_locker)
-            {
-                foreach (var card in magicCards)
-                {
+
                     logBox.AppendText(pidLabel.Text + " " + nameLabel.Text + " (" + 
                         (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() + "\\" +
                         conditionCombo.Text + ")\n");
@@ -546,8 +555,7 @@ namespace MKMEye
                     "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";
 
                     MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
-                }
-            }
+
         }
 
         private void addMKMButton_Click(object sender, EventArgs e)
