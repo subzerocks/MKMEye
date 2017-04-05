@@ -1,25 +1,25 @@
 ﻿/*
-	Magic Vision - MKM Edition 
+	MKMEye
 
-	Magic Vision - MKM Edition developed by Alexander Pick - Copyright 2017
-	Original Magic Vision Created by Peter Simard - Copyright 2010
+	MKMEye developed by Alexander Pick - Copyright 2017
+	Based on Magic Vision Created by Peter Simard - Copyright 2010
 
-	This file is part of MKMTool
+	This file is part of MKMEye
  
-	MagicVision MKM Edition is free software: you can redistribute it and/or modify
+	MKMEye is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    MagicVision MKM Edition is distributed in the hope that it will be useful,
+    MKMEye is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
-    along with MagicVision MKM Edition.  If not, see <http://www.gnu.org/licenses/>.
+    along with MKMEye.  If not, see <http://www.gnu.org/licenses/>.
 
-    Diese Datei ist Teil von MagicVision MKM Edition.
+    Diese Datei ist Teil von MKMEye.
 
-    MagicVision MKM Edition ist Freie Software: Sie können es unter den Bedingungen
+    MKMEye ist Freie Software: Sie können es unter den Bedingungen
     der GNU General Public License, wie von der Free Software Foundation,
     Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
     veröffentlichten Version, weiterverbreiten und/oder modifizieren.
@@ -56,21 +56,23 @@ using Point = System.Drawing.Point;
 
 namespace MKMEye
 {
-
     public partial class MainView : Form
     {
         private static readonly object _locker = new object();
+        private readonly Filters cameraFilters = new Filters();
+        private readonly List<MagicCard> magicCards = new List<MagicCard>();
+        public readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
         private Bitmap cameraBitmap;
         private Bitmap cameraBitmapLive;
-        private readonly Filters cameraFilters = new Filters();
         private Capture capture;
         private Bitmap cardArtBitmap;
         private Bitmap cardBitmap;
+        private int currentIndex = 1;
         private Bitmap filteredBitmap;
-        private readonly List<MagicCard> magicCards = new List<MagicCard>();
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
-        public readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
         public MySqlClient sql;
+
+        private XmlDocument xResult = new XmlDocument();
 
         public MainView()
         {
@@ -85,34 +87,31 @@ namespace MKMEye
 
             try
             {
-
-                XmlDocument xConfigFile = new XmlDocument();
+                var xConfigFile = new XmlDocument();
 
                 xConfigFile.Load(@".\\config.xml");
 
-                string SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
-                                         "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
-                                         "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText + ";" +
-                                         "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
-                                         "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
-                                         "Allow Zero Datetime=true;";
+                var SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
+                                   "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
+                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText + ";" +
+                                   "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
+                                   "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
+                                   "Allow Zero Datetime=true;";
 
                 sql = new MySqlClient(SqlConString);
             }
             catch (Exception e)
             {
-
                 MessageBox.Show(e.ToString());
 
 
                 throw;
             }
-
         }
 
         private double GetDeterminant(double x1, double y1, double x2, double y2)
         {
-            return x1 * y2 - x2 * y1;
+            return x1*y2 - x2*y1;
         }
 
         private double GetArea(IList<IntPoint> vertices)
@@ -127,7 +126,7 @@ namespace MKMEye
             {
                 area += GetDeterminant(vertices[i - 1].X, vertices[i - 1].Y, vertices[i].X, vertices[i].Y);
             }
-            return area / 2;
+            return area/2;
         }
 
         private void detectQuads(Bitmap bitmap)
@@ -289,7 +288,8 @@ namespace MKMEye
         private void Form1_Load(object sender, EventArgs e)
         {
             cameraBitmap = new Bitmap(640, 480);
-            capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1], cameraFilters.AudioInputDevices[0]);
+            capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
+                cameraFilters.AudioInputDevices[0]);
             var vc = capture.VideoCaps;
             capture.FrameSize = new Size(640, 480);
             capture.PreviewWindow = cam;
@@ -318,7 +318,6 @@ namespace MKMEye
 
         private void CaptureDone(Bitmap e)
         {
-
             //Console.WriteLine("CaptureDone() called");
 
             lock (_locker)
@@ -326,7 +325,7 @@ namespace MKMEye
                 magicCardsLastFrame = new List<MagicCard>(magicCards);
                 magicCards.Clear();
                 cameraBitmap = e;
-                cameraBitmapLive = (Bitmap)cameraBitmap.Clone();
+                cameraBitmapLive = (Bitmap) cameraBitmap.Clone();
                 detectQuads(cameraBitmap);
                 matchCard();
 
@@ -368,7 +367,7 @@ namespace MKMEye
                 if (bestMatch != null)
                 {
                     card.referenceCard = bestMatch;
-                    Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId.ToString());
+                    Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
 
                     var g = Graphics.FromImage(cameraBitmap);
                     g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Black,
@@ -441,7 +440,6 @@ namespace MKMEye
             {
                 //add card
             }
-
         }
 
         private void checkMKMButton_Click(object sender, EventArgs e)
@@ -449,15 +447,12 @@ namespace MKMEye
             CheckMKM();
         }
 
-        private XmlDocument xResult = new XmlDocument();
-        private int currentIndex = 1;
-
         private void loadProductAtIndex()
         {
             if (xResult.ChildNodes.Count != 0)
             {
                 // select next   
-                XmlNode xProduct = xResult.SelectSingleNode("/product[" + currentIndex + "]");
+                var xProduct = xResult.SelectSingleNode("/product[" + currentIndex + "]");
 
                 currentIndex++;
 
@@ -477,10 +472,13 @@ namespace MKMEye
         {
             // https://www.mkmapi.eu/ws/v2.0/products/find?search=Springleaf&idGame=1&idLanguage=1
 
-            string sCardName = "Springleaf";
+            var sCardName = "Springleaf";
             try
             {
-                xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=" + sCardName + "&idGame=1&idLanguage=1", "GET");
+                xResult =
+                    MKM.makeRequest(
+                        "https://www.mkmapi.eu/ws/v2.0/products/find?search=" + sCardName + "&idGame=1&idLanguage=1",
+                        "GET");
 
                 loadProductAtIndex();
             }
@@ -488,7 +486,6 @@ namespace MKMEye
             {
                 MessageBox.Show(e.Message);
             }
-
         }
 
         private void addMKM()
@@ -521,19 +518,16 @@ namespace MKMEye
 
                     */
 
-                    string xBody = "";
+                    var xBody = "";
 
-                    XmlDocument xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=", "POST", xBody);
-
+                    var xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=", "POST", xBody);
                 }
             }
         }
 
         private void addMKMButton_Click(object sender, EventArgs e)
         {
-
             addMKM();
-
         }
 
         private void nextButton_Click(object sender, EventArgs e)
