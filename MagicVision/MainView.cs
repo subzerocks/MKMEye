@@ -57,10 +57,10 @@ using Point = System.Drawing.Point;
 
 namespace MagicVision
 {
+
     public partial class MainView : Form
     {
         private static readonly object _locker = new object();
-
         private Bitmap cameraBitmap;
         private Bitmap cameraBitmapLive;
         private readonly Filters cameraFilters = new Filters();
@@ -70,9 +70,7 @@ namespace MagicVision
         private Bitmap filteredBitmap;
         private readonly List<MagicCard> magicCards = new List<MagicCard>();
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
-        private readonly string refCardDir = @".\\refimages\";
-        private readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
-
+        public readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
         public MySqlClient sql;
 
         public MainView()
@@ -111,26 +109,6 @@ namespace MagicVision
                 throw;
             }
 
-        }
-
-        private void hashCalcButton_Click(object sender, EventArgs e)
-        {
-            if (!Directory.Exists(refCardDir))
-            {
-                Directory.CreateDirectory(refCardDir);
-                MessageBox.Show(
-                    "Reference Directory is empty, creating it...\n" +
-                    " Please put your Referencecard images in there before trying this function again.");
-
-                return;
-            }
-
-            foreach (var card in referenceCards)
-            {
-                Phash.ph_dct_imagehash(refCardDir + (string)card.dataRow["Set"] + "\\" + card.cardId + ".jpg",
-                    ref card.pHash);
-                sql.dbNone("UPDATE cards SET pHash=" + card.pHash + " WHERE id=" + card.cardId);
-            }
         }
 
         private double GetDeterminant(double x1, double y1, double x2, double y2)
@@ -446,36 +424,6 @@ namespace MagicVision
             }
         }
 
-        private void downloadMultiverseImage(string sMultiverseId)
-        {
-            string imageUrl = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + sMultiverseId + "&type=card";
-
-            using (WebClient Client = new WebClient())
-            {
-                Client.DownloadFile(imageUrl, refCardDir + sMultiverseId + ".png");
-            }
-        }
-
-        private void downloadJson()
-        {
-            //https://mtgjson.com/json/AllCards.json.zip
-
-            string zipPath = @".\\alljson.zip";
-
-            using (WebClient Client = new WebClient())
-            {
-                Client.DownloadFile("https://mtgjson.com/json/AllCards.json.zip", zipPath);
-
-                //System.IO.Compression.ZipFile.ExtractToDirectory(zipPath, @".\\");
-            }
-        }
-
-        private void scrapeImagesButton_Click(object sender, EventArgs e)
-        {
-            downloadJson();
-            //scrape
-        }
-
         private void startCaptureButton_Click(object sender, EventArgs e)
         {
             lock (_locker)
@@ -489,6 +437,12 @@ namespace MagicVision
                     
                 }
             }
+        }
+
+        private void optionsButton_Click(object sender, EventArgs e)
+        {
+            var Options = new OptionsView(this);
+            Options.ShowDialog();
         }
     }
 }

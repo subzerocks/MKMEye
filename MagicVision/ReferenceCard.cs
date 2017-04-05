@@ -34,7 +34,7 @@ using System.Data;
 
 namespace MagicVision
 {
-    internal class ReferenceCard
+    public class ReferenceCard
     {
         public string cardId;
         public DataRow dataRow;
