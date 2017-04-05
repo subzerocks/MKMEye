@@ -1,4 +1,4 @@
-﻿namespace MagicVision
+﻿namespace MKMEye
 {
     partial class MainView
     {
@@ -28,21 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.image_output = new System.Windows.Forms.PictureBox();
             this.cam = new System.Windows.Forms.PictureBox();
             this.camWindow = new System.Windows.Forms.PictureBox();
             this.logBox = new System.Windows.Forms.TextBox();
-            this.startCaptureButton = new System.Windows.Forms.Button();
+            this.addMKMButton = new System.Windows.Forms.Button();
             this.cardCondition = new System.Windows.Forms.ComboBox();
             this.languageBox = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.checkMKMButton = new System.Windows.Forms.Button();
             this.optionsButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.detectedCard = new System.Windows.Forms.PictureBox();
+            this.pidLabel = new System.Windows.Forms.Label();
+            this.avgLabel = new System.Windows.Forms.Label();
+            this.editionLabel = new System.Windows.Forms.Label();
+            this.nextButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.image_output)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camWindow)).BeginInit();
@@ -72,7 +77,7 @@
             this.image_output.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.image_output.Location = new System.Drawing.Point(660, 25);
             this.image_output.Name = "image_output";
-            this.image_output.Size = new System.Drawing.Size(204, 216);
+            this.image_output.Size = new System.Drawing.Size(204, 187);
             this.image_output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.image_output.TabIndex = 4;
             this.image_output.TabStop = false;
@@ -102,21 +107,21 @@
             this.logBox.Margin = new System.Windows.Forms.Padding(2);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
-            this.logBox.Size = new System.Drawing.Size(642, 100);
+            this.logBox.Size = new System.Drawing.Size(538, 100);
             this.logBox.TabIndex = 17;
             this.logBox.Text = "Ready...";
             // 
-            // startCaptureButton
+            // addMKMButton
             // 
-            this.startCaptureButton.BackColor = System.Drawing.Color.GreenYellow;
-            this.startCaptureButton.Location = new System.Drawing.Point(764, 517);
-            this.startCaptureButton.Margin = new System.Windows.Forms.Padding(2);
-            this.startCaptureButton.Name = "startCaptureButton";
-            this.startCaptureButton.Size = new System.Drawing.Size(100, 100);
-            this.startCaptureButton.TabIndex = 18;
-            this.startCaptureButton.Text = "Add to MKM";
-            this.startCaptureButton.UseVisualStyleBackColor = false;
-            this.startCaptureButton.Click += new System.EventHandler(this.startCaptureButton_Click);
+            this.addMKMButton.BackColor = System.Drawing.Color.GreenYellow;
+            this.addMKMButton.Location = new System.Drawing.Point(764, 517);
+            this.addMKMButton.Margin = new System.Windows.Forms.Padding(2);
+            this.addMKMButton.Name = "addMKMButton";
+            this.addMKMButton.Size = new System.Drawing.Size(100, 100);
+            this.addMKMButton.TabIndex = 18;
+            this.addMKMButton.Text = "Add to MKM (s)";
+            this.addMKMButton.UseVisualStyleBackColor = false;
+            this.addMKMButton.Click += new System.EventHandler(this.addMKMButton_Click);
             // 
             // cardCondition
             // 
@@ -156,16 +161,17 @@
             this.languageBox.Size = new System.Drawing.Size(62, 21);
             this.languageBox.TabIndex = 20;
             // 
-            // button1
+            // checkMKMButton
             // 
-            this.button1.BackColor = System.Drawing.Color.Gold;
-            this.button1.Location = new System.Drawing.Point(660, 517);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 100);
-            this.button1.TabIndex = 21;
-            this.button1.Text = "Check on MKM";
-            this.button1.UseVisualStyleBackColor = false;
+            this.checkMKMButton.BackColor = System.Drawing.Color.Gold;
+            this.checkMKMButton.Location = new System.Drawing.Point(556, 517);
+            this.checkMKMButton.Margin = new System.Windows.Forms.Padding(2);
+            this.checkMKMButton.Name = "checkMKMButton";
+            this.checkMKMButton.Size = new System.Drawing.Size(100, 100);
+            this.checkMKMButton.TabIndex = 21;
+            this.checkMKMButton.Text = "Check on MKM (q)";
+            this.checkMKMButton.UseVisualStyleBackColor = false;
+            this.checkMKMButton.Click += new System.EventHandler(this.checkMKMButton_Click);
             // 
             // optionsButton
             // 
@@ -197,7 +203,7 @@
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(661, 434);
+            this.nameLabel.Location = new System.Drawing.Point(661, 404);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(103, 13);
             this.nameLabel.TabIndex = 25;
@@ -205,35 +211,82 @@
             // 
             // detectedCard
             // 
-            this.detectedCard.Location = new System.Drawing.Point(660, 248);
+            this.detectedCard.BackColor = System.Drawing.Color.Black;
+            this.detectedCard.Location = new System.Drawing.Point(660, 218);
             this.detectedCard.Name = "detectedCard";
             this.detectedCard.Size = new System.Drawing.Size(204, 183);
             this.detectedCard.TabIndex = 26;
             this.detectedCard.TabStop = false;
+            // 
+            // pidLabel
+            // 
+            this.pidLabel.AutoSize = true;
+            this.pidLabel.Location = new System.Drawing.Point(661, 426);
+            this.pidLabel.Name = "pidLabel";
+            this.pidLabel.Size = new System.Drawing.Size(93, 13);
+            this.pidLabel.TabIndex = 27;
+            this.pidLabel.Text = "Detectedcard PID";
+            // 
+            // avgLabel
+            // 
+            this.avgLabel.AutoSize = true;
+            this.avgLabel.Location = new System.Drawing.Point(808, 404);
+            this.avgLabel.Name = "avgLabel";
+            this.avgLabel.Size = new System.Drawing.Size(56, 13);
+            this.avgLabel.TabIndex = 28;
+            this.avgLabel.Text = "AVG Price";
+            // 
+            // editionLabel
+            // 
+            this.editionLabel.AutoSize = true;
+            this.editionLabel.Location = new System.Drawing.Point(825, 426);
+            this.editionLabel.Name = "editionLabel";
+            this.editionLabel.Size = new System.Drawing.Size(39, 13);
+            this.editionLabel.TabIndex = 29;
+            this.editionLabel.Text = "Edition";
+            this.editionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // nextButton
+            // 
+            this.nextButton.BackColor = System.Drawing.Color.LightCoral;
+            this.nextButton.Location = new System.Drawing.Point(660, 517);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(2);
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Size = new System.Drawing.Size(100, 100);
+            this.nextButton.TabIndex = 30;
+            this.nextButton.Text = "Check Again / Next (w)";
+            this.nextButton.UseVisualStyleBackColor = false;
+            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 627);
+            this.Controls.Add(this.nextButton);
+            this.Controls.Add(this.editionLabel);
+            this.Controls.Add(this.avgLabel);
+            this.Controls.Add(this.pidLabel);
             this.Controls.Add(this.detectedCard);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.optionsButton);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.checkMKMButton);
             this.Controls.Add(this.languageBox);
             this.Controls.Add(this.cardCondition);
-            this.Controls.Add(this.startCaptureButton);
+            this.Controls.Add(this.addMKMButton);
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.camWindow);
             this.Controls.Add(this.cam);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.image_output);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainView";
-            this.Text = "MKMVision";
+            this.Text = "MKMEye";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainView_keydDown);
             ((System.ComponentModel.ISupportInitialize)(this.image_output)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.camWindow)).EndInit();
@@ -250,14 +303,18 @@
         private System.Windows.Forms.PictureBox cam;
         private System.Windows.Forms.PictureBox camWindow;
         private System.Windows.Forms.TextBox logBox;
-        private System.Windows.Forms.Button startCaptureButton;
+        private System.Windows.Forms.Button addMKMButton;
         private System.Windows.Forms.ComboBox cardCondition;
         private System.Windows.Forms.ComboBox languageBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button checkMKMButton;
         private System.Windows.Forms.Button optionsButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.PictureBox detectedCard;
+        private System.Windows.Forms.Label pidLabel;
+        private System.Windows.Forms.Label avgLabel;
+        private System.Windows.Forms.Label editionLabel;
+        private System.Windows.Forms.Button nextButton;
     }
 }

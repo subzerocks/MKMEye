@@ -31,10 +31,9 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace MagicVision
+namespace MKMEye
 {
     public class Phash
     {

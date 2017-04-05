@@ -30,11 +30,12 @@
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
+
 using System.Collections.Generic;
 using System.Drawing;
 using AForge;
 
-namespace MagicVision
+namespace MKMEye
 {
     internal class MagicCard
     {

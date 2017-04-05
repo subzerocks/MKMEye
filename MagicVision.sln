@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVision", "MagicVision\MagicVision.csproj", "{6E246F05-9296-492B-B7F9-DCC99ED6FD4B}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKMEye", "MagicVision\MKMEye.csproj", "{6E246F05-9296-492B-B7F9-DCC99ED6FD4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectX.Capture", "MagicVision\DirectX.Capture\DirectX.Capture.csproj", "{8C0015DB-69E1-46E7-8705-3A4F8BE2E5E7}"
 EndProject

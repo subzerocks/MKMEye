@@ -45,7 +45,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
 using System.Windows.Forms;
 using System.Xml;
 using AForge;
@@ -55,7 +54,7 @@ using AForge.Math.Geometry;
 using DirectX.Capture;
 using Point = System.Drawing.Point;
 
-namespace MagicVision
+namespace MKMEye
 {
 
     public partial class MainView : Form
@@ -77,7 +76,7 @@ namespace MagicVision
         {
             InitializeComponent();
 
-            if (!File.Exists(@".\\sqlconfig.xml"))
+            if (!File.Exists(@".\\config.xml"))
             {
                 MessageBox.Show("Config File missing! Please read the manual.");
 
@@ -89,13 +88,13 @@ namespace MagicVision
 
                 XmlDocument xConfigFile = new XmlDocument();
 
-                xConfigFile.Load(@".\\sqlconfig.xml");
+                xConfigFile.Load(@".\\config.xml");
 
-                string SqlConString = "server=" + xConfigFile.SelectSingleNode("/mysql/host").InnerText + ";" +
-                                         "port=" + xConfigFile.SelectSingleNode("/mysql/port").InnerText + ";" +
-                                         "database=" + xConfigFile.SelectSingleNode("/mysql/database").InnerText + ";" +
-                                         "uid=" + xConfigFile.SelectSingleNode("/mysql/username").InnerText + ";" +
-                                         "pwd=" + xConfigFile.SelectSingleNode("/mysql/password").InnerText + ";" +
+                string SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
+                                         "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
+                                         "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText + ";" +
+                                         "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
+                                         "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
                                          "Allow Zero Datetime=true;";
 
                 sql = new MySqlClient(SqlConString);
@@ -424,25 +423,122 @@ namespace MagicVision
             }
         }
 
-        private void startCaptureButton_Click(object sender, EventArgs e)
-        {
-            lock (_locker)
-            {
-                foreach (var card in magicCards)
-                {
-                    var rect = new Rectangle(card.corners[0].X, card.corners[0].Y, card.corners[1].X - card.corners[0].X,
-                        card.corners[2].Y - card.corners[1].Y);
-
-                    logBox.AppendText(card.referenceCard.name + " added to List\n");
-                    
-                }
-            }
-        }
 
         private void optionsButton_Click(object sender, EventArgs e)
         {
             var Options = new OptionsView(this);
             Options.ShowDialog();
+        }
+
+        private void MainView_keydDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Q)
+            {
+                CheckMKM();
+            }
+
+            if (e.KeyCode == Keys.W)
+            {
+                //add card
+            }
+
+        }
+
+        private void checkMKMButton_Click(object sender, EventArgs e)
+        {
+            CheckMKM();
+        }
+
+        private XmlDocument xResult = new XmlDocument();
+        private int currentIndex = 1;
+
+        private void loadProductAtIndex()
+        {
+            if (xResult.ChildNodes.Count != 0)
+            {
+                // select next   
+                XmlNode xProduct = xResult.SelectSingleNode("/product[" + currentIndex + "]");
+
+                currentIndex++;
+
+                nameLabel.Text = xProduct["enName"].InnerText;
+
+                //avgLabel.Text = xProduct["enName"].InnerText;
+
+                pidLabel.Text = xProduct["idProduct"].InnerText;
+
+                editionLabel.Text = xProduct["expansionName"].InnerText;
+
+                detectedCard.ImageLocation = "https://www.magickartenmarkt.de/" + xProduct["website"].InnerText;
+            }
+        }
+
+        private void CheckMKM()
+        {
+            // https://www.mkmapi.eu/ws/v2.0/products/find?search=Springleaf&idGame=1&idLanguage=1
+
+            string sCardName = "Springleaf";
+            try
+            {
+                xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=" + sCardName + "&idGame=1&idLanguage=1", "GET");
+
+                loadProductAtIndex();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+        }
+
+        private void addMKM()
+        {
+            lock (_locker)
+            {
+                foreach (var card in magicCards)
+                {
+                    logBox.AppendText(card.referenceCard.name + " added to List\n");
+
+                    /*
+                     3. Add an article to the user's stock:
+
+                    POST https://www.mkmapi.eu/ws/v2.0/stock
+
+                    <?xml version="1.0" encoding="UTF-8" ?>
+                    <request>
+                        <article>
+                            <idProduct>100569</idProduct>
+                            <idLanguage>1</idLanguage>
+                            <comments>Inserted through the API</comments>
+                            <count>1</count>
+                            <price>4</price>
+                            <condition>EX</condition>
+                            <isFoil>true</isFoil>
+                            <isSigned>false</isSigned>
+                            <isPlayset>false</isPlayset>
+                        </article>
+                    </request>
+
+                    */
+
+                    string xBody = "";
+
+                    XmlDocument xResult = MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/products/find?search=", "POST", xBody);
+
+                }
+            }
+        }
+
+        private void addMKMButton_Click(object sender, EventArgs e)
+        {
+
+            addMKM();
+
+        }
+
+        private void nextButton_Click(object sender, EventArgs e)
+        {
+            loadProductAtIndex();
         }
     }
 }

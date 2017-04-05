@@ -1,4 +1,6 @@
-﻿/*
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
 	Magic Vision - MKM Edition 
 
 	Magic Vision - MKM Edition developed by Alexander Pick - Copyright 2017
@@ -29,24 +31,21 @@
     Siehe die GNU General Public License für weitere Details.
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
-*/
 
-using System;
-using System.Windows.Forms;
+-->
 
-namespace MKMEye
-{
-    internal static class Program
-    {
-        /// <summary>
-        ///     The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView());
-        }
-    }
-}
+<config>
+  <mysql>
+    <host>192.168.178.2</host>
+    <port>3306</port>
+    <username>mtgUser</username>
+    <password>6uSzZ7vbjIZCWo3m2jXJ</password>
+    <database>magiccards</database>
+  </mysql>
+  <mkm>
+    <appToken></appToken>
+    <appSecret></appSecret>
+    <accessToken></accessToken>
+    <accessSecret></accessSecret>
+  </mkm>
+</config>

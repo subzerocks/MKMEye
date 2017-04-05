@@ -34,10 +34,18 @@
 
 -->
 
-<mysql>
-  <host>localhost</host>
-  <port>3306</port>
-  <username></username>
-  <password></password>
-  <database>magiccards</database>
-</mysql>
+<config>
+  <mysql>
+    <host>192.168.178.2</host>
+    <port>3306</port>
+    <username>mtgUser</username>
+    <password>6uSzZ7vbjIZCWo3m2jXJ</password>
+    <database>magiccards</database>
+  </mysql>
+  <mkm>
+    <appToken></appToken>
+    <appSecret></appSecret>
+    <accessToken></accessToken>
+    <accessSecret></accessSecret>
+  </mkm>
+</config>

@@ -6,7 +6,7 @@ using System.Net;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 
-namespace MagicVision
+namespace MKMEye
 {
 
     public partial class OptionsView : Form
@@ -45,7 +45,7 @@ namespace MagicVision
 
             using (var Client = new WebClient())
             {
-                // Client.DownloadFile("https://mtgjson.com/json/AllSets.json.zip", zipPath);
+                 Client.DownloadFile("https://mtgjson.com/json/AllSets.json.zip", zipPath);
             }
 
             var cardsPath = @".\\AllSets.json";

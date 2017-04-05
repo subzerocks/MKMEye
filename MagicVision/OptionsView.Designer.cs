@@ -1,4 +1,4 @@
-﻿namespace MagicVision
+﻿namespace MKMEye
 {
     partial class OptionsView
     {
@@ -58,7 +58,7 @@
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.updateDatabase);
             this.Name = "OptionsView";
-            this.Text = "OptionsView";
+            this.Text = "DB Builder";
             this.ResumeLayout(false);
             this.PerformLayout();
 
