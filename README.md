@@ -32,11 +32,16 @@ https://dev.mysql.com/downloads/mysql/
 
 The tool will add new cards for a price of 1982 Eur, you can adjust this in the code or you run my MKMTool to update your prices afterwards liek I do. The MKMTool can be found on my github as well.
 
+###Some Notes
+
+- I tried to only match the art and the full card image. The full card works best. If you need a tool to crop art from xlhq images, it is included in this repo too.
+- watch what you add to mkm, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
+
 ###And finally
 
-The development of this tool cost me a lot of time recently but it was worth it to see it done now. 
+The development of this tool cost me a lot of time recently but it was worth it to see it done now. If you like this tool or you are a LGS which wants to use it everyday, please consider a donation.
 
-If you like this tool, you can donate me some bitcoin leftovers to my wallet here:
+You can donate me some bitcoin leftovers to my wallet here:
 
 13Jjvvnmn6t1ytbqWTZaio1zWNVWpbcEpG
 
@@ -47,7 +52,6 @@ https://www.amazon.de/registry/wishlist/PY25W6O71YIV/ref=cm_sw_em_r_mt_ws__ugkRy
 *Sorry I don’t have paypal.*
 
 **If you are producing a commercial product and need some help with the MKM API or you want to integrate some of my code in your application, feel free to contact me.**
-
 
 Original Magic Vision Release:
 https://www.reddit.com/r/magicTCG/comments/lccrx/full_source_code_of_the_mtg_card_image/
