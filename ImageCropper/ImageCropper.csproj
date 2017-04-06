@@ -100,12 +100,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="pHash\jpeg62.dll" />
-    <Content Include="pHash\libpng12.dll" />
-    <Content Include="pHash\pHash.dll" />
-    <Content Include="pHash\zlib1.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

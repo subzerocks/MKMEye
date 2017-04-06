@@ -42,7 +42,7 @@ namespace MKMEye
         private static readonly ulong h01 = 0x0101010101010101;
         private static readonly ulong m4 = 0x0f0f0f0f0f0f0f0f;
 
-        [DllImport(".\\pHash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(".\\pHash\\pHash.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
 
         // Calculate the similarity between two hashes

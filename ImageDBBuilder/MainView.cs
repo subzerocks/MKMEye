@@ -24,7 +24,7 @@ namespace ImageDBBuilder
         public class Phash
         {
 
-            [DllImport(".\\pHash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(".\\pHash\\pHash.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
 
         }
