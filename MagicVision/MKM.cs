@@ -59,13 +59,13 @@ namespace MKMEye
             }
             ,
             {
-                "2",
-                "French"
+                "3",
+                "German"
             }
             ,
             {
-                "3",
-                "German"
+                "2",
+                "French"
             }
             ,
             {

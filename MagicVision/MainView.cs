@@ -127,10 +127,9 @@ namespace MKMEye
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show(e.Message);
 
-
-                throw;
+                Application.Exit();
             }
         }
 
@@ -261,7 +260,7 @@ namespace MKMEye
         }
 
         // Move the corners a fixed amount
-        private void shiftCorners(List<IntPoint> corners, IntPoint point)
+ /*       private void shiftCorners(List<IntPoint> corners, IntPoint point)
         {
             var xOffset = point.X - corners[0].X;
             var yOffset = point.Y - corners[0].Y;
@@ -275,7 +274,7 @@ namespace MKMEye
 
                 corners[x] = point2;
             }
-        }
+        }*/
 
 
         private void rearrangeCorners(List<IntPoint> corners)
@@ -422,22 +421,6 @@ namespace MKMEye
             }
 
             return array;
-        }
-
-        private void camWindow_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void optionsButton_Click(object sender, EventArgs e)
-        {
-            var Options = new OptionsView(this);
-            Options.ShowDialog();
-        }
-
-        private void MainView_keydDown(object sender, KeyEventArgs e)
-        {
-
         }
 
         //prevent multiple events

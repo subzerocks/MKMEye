@@ -31,34 +31,10 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Data;
-using MySql.Data.MySqlClient;
-
-namespace MKMEye
+namespace ImageDBBuilder
 {
-    public class MySqlClient
+    internal static class Settings
     {
-        private readonly MySqlConnection sql;
-
-        public MySqlClient(string SqlConString)
-        {
-            sql = new MySqlConnection(SqlConString);
-            sql.Open();
-        }
-
-        public DataTable dbResult(string query)
-        {
-            var command = sql.CreateCommand();
-            command.CommandText = query;
-
-            var selectDT = new DataTable();
-            var dataAd = new MySqlDataAdapter(command);
-
-            dataAd.Fill(selectDT);
-
-            return selectDT;
-        }
-
+        public static string refCardDir = @".\\refimages\";
     }
 }
