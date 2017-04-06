@@ -96,14 +96,28 @@ namespace ImageDBBuilder
 
                             ulong pHash = 0;
 
-                            var imageLocalJPG = pathBox.Text + "";
+                            var charsToRemove = new string[] { "@", ":", ";" };
+
+                            string sFilteredFilename = jcard["name"].ToString();
+
+                            foreach (var c in charsToRemove)
+                            {
+                                sFilteredFilename = sFilteredFilename.Replace(c, string.Empty);
+                            }
+
+                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + ".jpg";
 
                             Phash.ph_dct_imagehash(imageLocalJPG, ref pHash);
 
                             var sSQLString =
-                                "INSERT INTO cards (`id`,`Name`,`pHash`) VALUES ('" +
+                                "INSERT INTO cards (`id`,`Name`,`Edition`,`pHash`) VALUES ('" +
                                 jcard["multiverseid"] + "','" +
-                                jcard["name"] + "','0')";
+                                sql.EncodeMySqlString(jcard["name"].ToString()) + "','" +
+                                edition["code"] + "','"
+                                + pHash +
+                                "')";
+
+                            logBox.AppendText(sSQLString + "\n");
                         
                             if (jcard["multiverseid"].ToString() != "")
                             {
@@ -142,6 +156,11 @@ namespace ImageDBBuilder
         {
             purgeDB();
             downloadJson();
+        }
+
+        private void browseButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

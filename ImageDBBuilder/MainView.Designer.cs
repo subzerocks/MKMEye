@@ -72,7 +72,7 @@
             this.pathBox.Name = "pathBox";
             this.pathBox.Size = new System.Drawing.Size(391, 20);
             this.pathBox.TabIndex = 0;
-            this.pathBox.Text = "C:\\mtgcropimages\\";
+            this.pathBox.Text = "E:\\crops\\";
             // 
             // label1
             // 
@@ -92,6 +92,7 @@
             this.browseButton.TabIndex = 5;
             this.browseButton.Text = "Browse Directory";
             this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
             // MainView
             // 

@@ -41,6 +41,11 @@ namespace ImageDBBuilder
     {
         private readonly MySqlConnection sql;
 
+        public string EncodeMySqlString(string value)
+        {
+            return value.Replace(@"\", @"\\").Replace("'", @"\'");
+        }
+
         public MySqlClient(string SqlConString)
         {
             sql = new MySqlConnection(SqlConString);

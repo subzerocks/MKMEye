@@ -65,6 +65,8 @@ int ph_num_threads()
 }
 #endif
 
+
+
 const char phash_project[] = "%s. Copyright 2008-2010 Aetilius, Inc.";
 char phash_version[255] = {0};
 const char* ph_about(){

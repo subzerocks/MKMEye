@@ -325,7 +325,7 @@ namespace MKMEye
 
         private void loadSourceCards()
         {
-            using (var Reader = sql.dbResult("SELECT * FROM cards"))
+            using (var Reader = sql.dbResult("SELECT * FROM cards WHERE pHash != '0'"))
             {
                 foreach (DataRow r in Reader.Rows)
                 {
