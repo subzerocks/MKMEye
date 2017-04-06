@@ -105,7 +105,12 @@ namespace ImageDBBuilder
                                 sFilteredFilename = sFilteredFilename.Replace(c, string.Empty);
                             }*/
 
-                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + ".jpg";
+                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + ".xlhq.jpg";
+
+                            if (!File.Exists(imageLocalJPG))
+                            {
+                                //MessageBox.Show("File not found! " + imageLocalJPG);
+                            }
 
                             Phash.ph_dct_imagehash(imageLocalJPG, ref pHash);
 
