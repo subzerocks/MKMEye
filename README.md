@@ -32,12 +32,12 @@ https://dev.mysql.com/downloads/mysql/
 
 The tool will add new cards for a price of 1982 Eur, you can adjust this in the code or you run my MKMTool to update your prices afterwards liek I do. The MKMTool can be found on my github as well.
 
-###Some Notes
+### Some Notes
 
 - I tried to only match the art and the full card image. The full card works best. If you need a tool to crop art from xlhq images, it is included in this repo too.
 - watch what you add to mkm, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
 
-###And finally
+### And finally
 
 The development of this tool cost me a lot of time recently but it was worth it to see it done now. If you like this tool or you are a LGS which wants to use it everyday, please consider a donation.
 
