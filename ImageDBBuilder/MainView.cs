@@ -24,7 +24,7 @@ namespace ImageDBBuilder
         public class Phash
         {
 
-            [DllImport(".\\pHash\\pHash.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(".\\phash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
 
         }
@@ -96,14 +96,14 @@ namespace ImageDBBuilder
 
                             ulong pHash = 0;
 
-                            var charsToRemove = new string[] { "@", ":", ";" };
+                            //var charsToRemove = new string[] { "@", ":", ";" };
 
-                            string sFilteredFilename = jcard["name"].ToString();
+                            string sFilteredFilename = jcard["imageName"].ToString();
 
-                            foreach (var c in charsToRemove)
+                            /*foreach (var c in charsToRemove)
                             {
                                 sFilteredFilename = sFilteredFilename.Replace(c, string.Empty);
-                            }
+                            }*/
 
                             var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + ".jpg";
 
