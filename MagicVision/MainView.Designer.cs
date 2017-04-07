@@ -64,66 +64,71 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(24, 17);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(150, 25);
             this.label1.TabIndex = 3;
             this.label1.Text = "Original Image";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(658, 9);
+            this.label2.Location = new System.Drawing.Point(1316, 17);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(103, 25);
             this.label2.TabIndex = 5;
             this.label2.Text = "Detection";
             // 
             // image_output
             // 
             this.image_output.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.image_output.Location = new System.Drawing.Point(121, 517);
+            this.image_output.Location = new System.Drawing.Point(242, 994);
+            this.image_output.Margin = new System.Windows.Forms.Padding(6);
             this.image_output.Name = "image_output";
-            this.image_output.Size = new System.Drawing.Size(169, 99);
+            this.image_output.Size = new System.Drawing.Size(336, 189);
             this.image_output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.image_output.TabIndex = 4;
             this.image_output.TabStop = false;
             // 
             // cam
             // 
-            this.cam.Location = new System.Drawing.Point(621, 30);
+            this.cam.Location = new System.Drawing.Point(1242, 58);
+            this.cam.Margin = new System.Windows.Forms.Padding(6);
             this.cam.Name = "cam";
-            this.cam.Size = new System.Drawing.Size(33, 37);
+            this.cam.Size = new System.Drawing.Size(66, 71);
             this.cam.TabIndex = 7;
             this.cam.TabStop = false;
             this.cam.Visible = false;
             // 
             // camWindow
             // 
-            this.camWindow.Location = new System.Drawing.Point(15, 25);
+            this.camWindow.Location = new System.Drawing.Point(30, 48);
+            this.camWindow.Margin = new System.Windows.Forms.Padding(6);
             this.camWindow.Name = "camWindow";
-            this.camWindow.Size = new System.Drawing.Size(640, 480);
+            this.camWindow.Size = new System.Drawing.Size(1280, 923);
             this.camWindow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.camWindow.TabIndex = 15;
             this.camWindow.TabStop = false;
             // 
             // logBox
             // 
-            this.logBox.Location = new System.Drawing.Point(295, 517);
-            this.logBox.Margin = new System.Windows.Forms.Padding(2);
+            this.logBox.Location = new System.Drawing.Point(590, 994);
+            this.logBox.Margin = new System.Windows.Forms.Padding(4);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
-            this.logBox.Size = new System.Drawing.Size(265, 100);
+            this.logBox.Size = new System.Drawing.Size(526, 189);
             this.logBox.TabIndex = 17;
             // 
             // addMKMButton
             // 
             this.addMKMButton.BackColor = System.Drawing.Color.GreenYellow;
-            this.addMKMButton.Location = new System.Drawing.Point(772, 517);
-            this.addMKMButton.Margin = new System.Windows.Forms.Padding(2);
+            this.addMKMButton.Location = new System.Drawing.Point(1544, 994);
+            this.addMKMButton.Margin = new System.Windows.Forms.Padding(4);
             this.addMKMButton.Name = "addMKMButton";
-            this.addMKMButton.Size = new System.Drawing.Size(100, 100);
+            this.addMKMButton.Size = new System.Drawing.Size(200, 192);
             this.addMKMButton.TabIndex = 18;
             this.addMKMButton.Text = "Add to MKM (s)";
             this.addMKMButton.UseVisualStyleBackColor = false;
@@ -140,28 +145,28 @@
             "LP",
             "PL",
             "PO"});
-            this.conditionCombo.Location = new System.Drawing.Point(734, 486);
-            this.conditionCombo.Margin = new System.Windows.Forms.Padding(2);
+            this.conditionCombo.Location = new System.Drawing.Point(1468, 935);
+            this.conditionCombo.Margin = new System.Windows.Forms.Padding(4);
             this.conditionCombo.Name = "conditionCombo";
-            this.conditionCombo.Size = new System.Drawing.Size(62, 21);
+            this.conditionCombo.Size = new System.Drawing.Size(120, 33);
             this.conditionCombo.TabIndex = 19;
             // 
             // langCombo
             // 
             this.langCombo.FormattingEnabled = true;
-            this.langCombo.Location = new System.Drawing.Point(734, 461);
-            this.langCombo.Margin = new System.Windows.Forms.Padding(2);
+            this.langCombo.Location = new System.Drawing.Point(1468, 887);
+            this.langCombo.Margin = new System.Windows.Forms.Padding(4);
             this.langCombo.Name = "langCombo";
-            this.langCombo.Size = new System.Drawing.Size(62, 21);
+            this.langCombo.Size = new System.Drawing.Size(120, 33);
             this.langCombo.TabIndex = 20;
             // 
             // checkMKMButton
             // 
             this.checkMKMButton.BackColor = System.Drawing.Color.Gold;
-            this.checkMKMButton.Location = new System.Drawing.Point(564, 517);
-            this.checkMKMButton.Margin = new System.Windows.Forms.Padding(2);
+            this.checkMKMButton.Location = new System.Drawing.Point(1128, 994);
+            this.checkMKMButton.Margin = new System.Windows.Forms.Padding(4);
             this.checkMKMButton.Name = "checkMKMButton";
-            this.checkMKMButton.Size = new System.Drawing.Size(100, 100);
+            this.checkMKMButton.Size = new System.Drawing.Size(200, 192);
             this.checkMKMButton.TabIndex = 21;
             this.checkMKMButton.Text = "Check on MKM (q)";
             this.checkMKMButton.UseVisualStyleBackColor = false;
@@ -170,36 +175,40 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(661, 489);
+            this.label3.Location = new System.Drawing.Point(1322, 940);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.Size = new System.Drawing.Size(103, 25);
             this.label3.TabIndex = 23;
             this.label3.Text = "Condition";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(661, 464);
+            this.label4.Location = new System.Drawing.Point(1322, 892);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.Size = new System.Drawing.Size(108, 25);
             this.label4.TabIndex = 24;
             this.label4.Text = "Language";
             // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(661, 339);
+            this.nameLabel.Location = new System.Drawing.Point(1322, 652);
+            this.nameLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(103, 13);
+            this.nameLabel.Size = new System.Drawing.Size(202, 25);
             this.nameLabel.TabIndex = 25;
             this.nameLabel.Text = "Detectedcard Name";
             // 
             // detectedCard
             // 
             this.detectedCard.BackColor = System.Drawing.Color.Black;
-            this.detectedCard.Location = new System.Drawing.Point(660, 25);
+            this.detectedCard.Location = new System.Drawing.Point(1320, 48);
+            this.detectedCard.Margin = new System.Windows.Forms.Padding(6);
             this.detectedCard.Name = "detectedCard";
-            this.detectedCard.Size = new System.Drawing.Size(212, 304);
+            this.detectedCard.Size = new System.Drawing.Size(424, 585);
             this.detectedCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.detectedCard.TabIndex = 26;
             this.detectedCard.TabStop = false;
@@ -207,28 +216,30 @@
             // pidLabel
             // 
             this.pidLabel.AutoSize = true;
-            this.pidLabel.Location = new System.Drawing.Point(661, 360);
+            this.pidLabel.Location = new System.Drawing.Point(1322, 692);
+            this.pidLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.pidLabel.Name = "pidLabel";
-            this.pidLabel.Size = new System.Drawing.Size(93, 13);
+            this.pidLabel.Size = new System.Drawing.Size(180, 25);
             this.pidLabel.TabIndex = 27;
             this.pidLabel.Text = "Detectedcard PID";
             // 
             // editionLabel
             // 
             this.editionLabel.AutoSize = true;
-            this.editionLabel.Location = new System.Drawing.Point(661, 383);
+            this.editionLabel.Location = new System.Drawing.Point(1322, 737);
+            this.editionLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.editionLabel.Name = "editionLabel";
-            this.editionLabel.Size = new System.Drawing.Size(39, 13);
+            this.editionLabel.Size = new System.Drawing.Size(78, 25);
             this.editionLabel.TabIndex = 29;
             this.editionLabel.Text = "Edition";
             // 
             // nextButton
             // 
             this.nextButton.BackColor = System.Drawing.Color.LightCoral;
-            this.nextButton.Location = new System.Drawing.Point(668, 517);
-            this.nextButton.Margin = new System.Windows.Forms.Padding(2);
+            this.nextButton.Location = new System.Drawing.Point(1336, 994);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(4);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(100, 100);
+            this.nextButton.Size = new System.Drawing.Size(200, 192);
             this.nextButton.TabIndex = 30;
             this.nextButton.Text = "Check Again / Next (w)";
             this.nextButton.UseVisualStyleBackColor = false;
@@ -236,60 +247,67 @@
             // 
             // treasholdBox
             // 
-            this.treasholdBox.Location = new System.Drawing.Point(15, 533);
+            this.treasholdBox.Location = new System.Drawing.Point(30, 1025);
+            this.treasholdBox.Margin = new System.Windows.Forms.Padding(6);
             this.treasholdBox.Name = "treasholdBox";
-            this.treasholdBox.Size = new System.Drawing.Size(100, 20);
+            this.treasholdBox.Size = new System.Drawing.Size(196, 31);
             this.treasholdBox.TabIndex = 31;
-            this.treasholdBox.Text = "40000";
+            this.treasholdBox.Text = "100000";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 517);
+            this.label5.Location = new System.Drawing.Point(24, 994);
+            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.Size = new System.Drawing.Size(205, 25);
             this.label5.TabIndex = 32;
             this.label5.Text = "Detection Treashold";
             // 
             // blobHigh
             // 
-            this.blobHigh.Location = new System.Drawing.Point(15, 577);
+            this.blobHigh.Location = new System.Drawing.Point(30, 1110);
+            this.blobHigh.Margin = new System.Windows.Forms.Padding(6);
             this.blobHigh.Name = "blobHigh";
-            this.blobHigh.Size = new System.Drawing.Size(39, 20);
+            this.blobHigh.Size = new System.Drawing.Size(74, 31);
             this.blobHigh.TabIndex = 34;
             this.blobHigh.Text = "125";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 561);
+            this.label6.Location = new System.Drawing.Point(24, 1079);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 13);
+            this.label6.Size = new System.Drawing.Size(184, 25);
             this.label6.TabIndex = 35;
             this.label6.Text = "Blob Height/Width";
             // 
             // blobWidth
             // 
-            this.blobWidth.Location = new System.Drawing.Point(76, 577);
+            this.blobWidth.Location = new System.Drawing.Point(152, 1110);
+            this.blobWidth.Margin = new System.Windows.Forms.Padding(6);
             this.blobWidth.Name = "blobWidth";
-            this.blobWidth.Size = new System.Drawing.Size(39, 20);
+            this.blobWidth.Size = new System.Drawing.Size(74, 31);
             this.blobWidth.TabIndex = 36;
             this.blobWidth.Text = "125";
             // 
             // priceBox
             // 
-            this.priceBox.Location = new System.Drawing.Point(734, 436);
+            this.priceBox.Location = new System.Drawing.Point(1468, 838);
+            this.priceBox.Margin = new System.Windows.Forms.Padding(6);
             this.priceBox.Name = "priceBox";
-            this.priceBox.Size = new System.Drawing.Size(62, 20);
+            this.priceBox.Size = new System.Drawing.Size(120, 31);
             this.priceBox.TabIndex = 37;
             this.priceBox.Text = "1982";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(661, 439);
+            this.label7.Location = new System.Drawing.Point(1322, 844);
+            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 13);
+            this.label7.Size = new System.Drawing.Size(61, 25);
             this.label7.TabIndex = 38;
             this.label7.Text = "Price";
             // 
@@ -298,18 +316,19 @@
             this.targetPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.targetPic.Enabled = false;
             this.targetPic.Image = ((System.Drawing.Image)(resources.GetObject("targetPic.Image")));
-            this.targetPic.Location = new System.Drawing.Point(9, 30);
+            this.targetPic.Location = new System.Drawing.Point(18, 58);
+            this.targetPic.Margin = new System.Windows.Forms.Padding(6);
             this.targetPic.Name = "targetPic";
-            this.targetPic.Size = new System.Drawing.Size(640, 480);
+            this.targetPic.Size = new System.Drawing.Size(1280, 923);
             this.targetPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.targetPic.TabIndex = 39;
             this.targetPic.TabStop = false;
             // 
             // MainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 632);
+            this.ClientSize = new System.Drawing.Size(1774, 1215);
             this.Controls.Add(this.targetPic);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.priceBox);
@@ -336,6 +355,7 @@
             this.Controls.Add(this.camWindow);
             this.Controls.Add(this.cam);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainView";
             this.Text = "MKMEye";
             this.Load += new System.EventHandler(this.Form1_Load);

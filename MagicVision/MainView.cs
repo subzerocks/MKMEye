@@ -174,7 +174,7 @@ namespace MKMEye
             edgeFilter.ApplyInPlace(filteredBitmap);
 
             // Threshhold filter
-            var threshholdFilter = new Threshold(190);
+            var threshholdFilter = new Threshold(180);
             threshholdFilter.ApplyInPlace(filteredBitmap);
 
             var bitmapData = filteredBitmap.LockBits(
@@ -234,13 +234,19 @@ namespace MKMEye
 
                         if (sameCard)
                             continue;
+                        
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
                         if (GetArea(corners) < Double.Parse(treasholdBox.Text))
                         {
                             continue;
                         }
-                            
+
+                        /*if (GetArea(corners) > 150000)
+                        {
+                            continue;
+                        }*/
+
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
@@ -265,6 +271,13 @@ namespace MKMEye
                         card.cardArtBitmap = cardArtBitmap;
 
                         magicCards.Add(card);
+
+                        pen.Dispose();
+                        g.Dispose();
+
+                        filteredBitmap = bm;
+
+                        return;
                     }
                 }
             }
@@ -330,13 +343,13 @@ namespace MKMEye
 
             targetPic.Parent = camWindow;
             targetPic.BackColor = Color.Transparent;
-            targetPic.Location = new Point(0, 0);
+            targetPic.Location = new Point(0, 30);
 
-            cameraBitmap = new Bitmap(640, 480);
+            cameraBitmap = new Bitmap(800, 600);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
                 cameraFilters.AudioInputDevices[0]);
             var vc = capture.VideoCaps;
-            capture.FrameSize = new Size(640, 480);
+            capture.FrameSize = new Size(800, 600);
             capture.PreviewWindow = cam;
             capture.FrameEvent2 += CaptureDone;
             capture.GrapImg();
@@ -387,6 +400,10 @@ namespace MKMEye
             foreach (var card in magicCards)
             {
                 cardTempId++;
+
+                //ContrastCorrection filter = new ContrastCorrection(15);
+                //filter.ApplyInPlace(card.cardArtBitmap);
+
                 // Write the image to disk to be read by the pHash library.. should really find
                 // a way to pass a pointer to image data directly
                 card.cardArtBitmap.Save("tempCard" + cardTempId + ".jpg", ImageFormat.Jpeg);
@@ -456,22 +473,25 @@ namespace MKMEye
             {
                 CheckMKM();
                 keystroke = false;
+                return true;
             }
 
             if (keyData == Keys.W)
             {
                 loadProductAtIndex();
+                return true;
             }
             if (keyData == Keys.S && !keystroke)
             {
                 addMKM();
                 keystroke = true;
+                return true;
+
             }
 
-            //return base.ProcessCmdKey(ref msg, keyData);
-
-            return true;
-
+            keystroke = false;
+            return base.ProcessCmdKey(ref msg, keyData);
+            
         }
 
         private void checkMKMButton_Click(object sender, EventArgs e)

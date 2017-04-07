@@ -38,6 +38,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -102,9 +103,21 @@ namespace ImageCropper
 
             try
             {
-             /* 
-              *    This code works and crops well on 80% of the images but we need 100%
-              *  
+                /* 
+                 *    This code works and crops well on 80% of the images but we need 100%
+                 *  */
+
+                int width = bitmap.Width + (bitmap.Width / 2);
+                int height = bitmap.Height + (bitmap.Height / 2);
+
+                // Create a compatible bitmap
+                Bitmap dest = new Bitmap(width, height, bitmap.PixelFormat);
+                Graphics gd = Graphics.FromImage(dest);
+
+                dest.Dispose();
+
+                gd.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
+
                 // Greyscale
                 filteredBitmap = Grayscale.CommonAlgorithms.BT709.Apply(bitmap);
 
@@ -112,9 +125,11 @@ namespace ImageCropper
                 //ContrastStretch filter = new ContrastStretch();
                 //filter.ApplyInPlace(filteredBitmap);
 
+                int cutMargin = 80;
+
                 // split the image to avoid the textbox beeing detected
                 Crop cropFilterPre =
-                    new Crop(new Rectangle(0, 0, filteredBitmap.Width, ((filteredBitmap.Height / 100) * 70)));
+                    new Crop(new Rectangle(0, cutMargin, filteredBitmap.Width, ((filteredBitmap.Height / 100) * 60)));
                 filteredBitmap = cropFilterPre.Apply(filteredBitmap);
 
                 // edge filter
@@ -132,8 +147,8 @@ namespace ImageCropper
                 var blobCounter = new BlobCounter();
 
                 blobCounter.FilterBlobs = true;
-                blobCounter.MinHeight = 100;
-                blobCounter.MinWidth = 120;
+                blobCounter.MinHeight = 200;
+                blobCounter.MinWidth = 200;
 
                 blobCounter.ProcessImage(bitmapData);
                 var blobs = blobCounter.GetObjectsInformation();
@@ -141,13 +156,13 @@ namespace ImageCropper
 
                 var shapeChecker = new SimpleShapeChecker();
 
-                var bm = new Bitmap(filteredBitmap.Width, filteredBitmap.Height, PixelFormat.Format24bppRgb);
+                /*var bm = new Bitmap(filteredBitmap.Width, filteredBitmap.Height, PixelFormat.Format24bppRgb);
 
                 var g = Graphics.FromImage(bm);
                 g.DrawImage(filteredBitmap, 0, 0);
 
                 var pen = new Pen(Color.Red, 5);
-                var cardPositions = new List<IntPoint>();
+                //var cardPositions = new List<IntPoint>();*/
 
                 // Loop through detected shapes
                 for (int i = 0, n = blobs.Length; i < n; i++)
@@ -167,19 +182,39 @@ namespace ImageCropper
                             corners.Count == 4)
                         {
 
-                            // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                            if (GetArea(corners) < 100000)
+                            // Hack to prevent it from detecting smaller sections of the card instead of the art
+                            if (GetArea(corners) < 120000)
                                 continue;
 
-                            Crop cropFilter =
-                                new Crop(new Rectangle(corners[0].X, corners[0].Y, corners[2].X - corners[0].X,
-                                    corners[2].Y - corners[0].Y));
+                            //debug crap
+                            /*Bitmap newImage = filteredBitmap;
+                            Random rnd = new Random();
+                            newImage.Save(@"X:\" + rnd.Next() + ".jpg", ImageFormat.Jpeg);*/
+
+                            int x = corners[0].X;
+                            int y = corners[0].Y + cutMargin;
+                            int x2 = corners[2].X - corners[0].X;
+                            int y2 = corners[2].Y - (corners[0].Y + 0);
+
+                            if (x2 < 0 || y2 < 0)
+                            {
+                                x = corners[1].X;
+                                y = corners[1].Y + cutMargin;
+                                x2 = corners[3].X - corners[1].X;
+                                y2 = corners[3].Y - (corners[1].Y + 0);
+                            }
+
+                            Rectangle cropframe = new Rectangle(x, y, x2, y2);
+
+                            Crop cropFilter = new Crop(cropframe);
                             cardArtBitmap = cropFilter.Apply(bitmap);
 
                             bitmap.Dispose();
 
-                            pen.Dispose();
-                            g.Dispose();
+                            // pen.Dispose();
+                            // g.Dispose();
+
+                            gd.Dispose();
 
                             filteredBitmap.Dispose();
 
@@ -188,7 +223,9 @@ namespace ImageCropper
                         }
                     }
 
-                }*/
+                }
+
+                Console.WriteLine("Fallback Triggered!");
 
                 //Fallback default crop, assumes XLHQ CCGHQ images
 
@@ -200,7 +237,9 @@ namespace ImageCropper
                 //pen.Dispose();
                 //g.Dispose();
 
-                //filteredBitmap.Dispose();
+                gd.Dispose();
+
+                filteredBitmap.Dispose();
 
             }
             catch (Exception e)
@@ -220,8 +259,10 @@ namespace ImageCropper
             {
                 foreach (string f in Directory.GetFiles(d))
                 {
+                    Console.WriteLine(f);
                     logBox.AppendText(f + "\n");
                     cropImage(f);
+                    GC.Collect();
                 }
                 DirSearch(d);
             }
@@ -249,6 +290,7 @@ namespace ImageCropper
                 image.Dispose();
 
                 newImage.Save(sTargetFileNamePath, ImageFormat.Jpeg);
+
                 newImage.Dispose();
 
             }
