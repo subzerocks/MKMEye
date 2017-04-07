@@ -240,7 +240,7 @@ namespace ImageCropper
                     Directory.CreateDirectory(sTarget);
                 }
 
-                string sTargetFileNamePath = Path.Combine(sTarget, sFilename.Split('.').First() + ".jpg");
+                string sTargetFileNamePath = Path.Combine(sTarget, sFilename + ".jpg");
 
                 Bitmap image = new Bitmap(f);
 

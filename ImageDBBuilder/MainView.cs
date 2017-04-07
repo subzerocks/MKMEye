@@ -105,7 +105,7 @@ namespace ImageDBBuilder
                                 sFilteredFilename = sFilteredFilename.Replace(c, string.Empty);
                             }*/
 
-                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + ".xlhq.jpg";
+                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + postfixBox.Text + ".jpg";
 
                             if (!File.Exists(imageLocalJPG))
                             {

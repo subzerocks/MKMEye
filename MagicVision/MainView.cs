@@ -222,8 +222,11 @@ namespace MKMEye
                             continue;
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                        if (GetArea(corners) < 40000)
+                        if (GetArea(corners) < Double.Parse(treasholdBox.Text))
+                        {
                             continue;
+                        }
+                            
 
                         cardPositions.Add(corners[0]);
 
@@ -311,11 +314,11 @@ namespace MKMEye
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cameraBitmap = new Bitmap(800, 600);
+            cameraBitmap = new Bitmap(640, 480);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
                 cameraFilters.AudioInputDevices[0]);
             var vc = capture.VideoCaps;
-            capture.FrameSize = new Size(800, 600);
+            capture.FrameSize = new Size(640, 480);
             capture.PreviewWindow = cam;
             capture.FrameEvent2 += CaptureDone;
             capture.GrapImg();

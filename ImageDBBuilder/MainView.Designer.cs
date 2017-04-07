@@ -33,7 +33,8 @@
             this.logBox = new System.Windows.Forms.TextBox();
             this.pathBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.browseButton = new System.Windows.Forms.Button();
+            this.postfixBox = new System.Windows.Forms.TextBox();
+            this.Postfix = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buildButton
@@ -70,7 +71,7 @@
             // 
             this.pathBox.Location = new System.Drawing.Point(48, 373);
             this.pathBox.Name = "pathBox";
-            this.pathBox.Size = new System.Drawing.Size(391, 20);
+            this.pathBox.Size = new System.Drawing.Size(335, 20);
             this.pathBox.TabIndex = 0;
             this.pathBox.Text = "E:\\crops\\";
             // 
@@ -84,22 +85,30 @@
             this.label1.Text = "*** ONLY USE THIS TOOL IF YOU KNOW WHAT YOU ARE DOING OR YOU WILL DESTROY YOUR PH" +
     "ASH DB ***";
             // 
-            // browseButton
+            // postfixBox
             // 
-            this.browseButton.Location = new System.Drawing.Point(445, 371);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(139, 23);
-            this.browseButton.TabIndex = 5;
-            this.browseButton.Text = "Browse Directory";
-            this.browseButton.UseVisualStyleBackColor = true;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            this.postfixBox.Location = new System.Drawing.Point(483, 373);
+            this.postfixBox.Name = "postfixBox";
+            this.postfixBox.Size = new System.Drawing.Size(100, 20);
+            this.postfixBox.TabIndex = 5;
+            this.postfixBox.Text = ".xlhq";
+            // 
+            // Postfix
+            // 
+            this.Postfix.AutoSize = true;
+            this.Postfix.Location = new System.Drawing.Point(439, 376);
+            this.Postfix.Name = "Postfix";
+            this.Postfix.Size = new System.Drawing.Size(38, 13);
+            this.Postfix.TabIndex = 6;
+            this.Postfix.Text = "Postfix";
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(588, 464);
-            this.Controls.Add(this.browseButton);
+            this.Controls.Add(this.Postfix);
+            this.Controls.Add(this.postfixBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.Label);
@@ -118,7 +127,8 @@
         private System.Windows.Forms.TextBox logBox;
         private System.Windows.Forms.TextBox pathBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.TextBox postfixBox;
+        private System.Windows.Forms.Label Postfix;
     }
 }
 
