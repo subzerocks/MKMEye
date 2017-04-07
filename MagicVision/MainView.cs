@@ -158,7 +158,18 @@ namespace MKMEye
             // Greyscale
             filteredBitmap = Grayscale.CommonAlgorithms.BT709.Apply(bitmap);
 
-            // edge filter
+            // Contrast - try to sharpen edges
+            //ContrastStretch filter = new ContrastStretch();
+            //filter.ApplyInPlace(filteredBitmap);
+
+            // edge filter 
+            // This filters accepts 8 bpp grayscale images for processing
+
+            //Alternatives:
+            //DifferenceEdgeDetector edgeFilter = new DifferenceEdgeDetector();
+            //HomogenityEdgeDetector filter = new HomogenityEdgeDetector();
+            //CannyEdgeDetector filter = new CannyEdgeDetector( );
+
             var edgeFilter = new SobelEdgeDetector();
             edgeFilter.ApplyInPlace(filteredBitmap);
 
@@ -173,8 +184,11 @@ namespace MKMEye
             var blobCounter = new BlobCounter();
 
             blobCounter.FilterBlobs = true;
-            blobCounter.MinHeight = 125;
-            blobCounter.MinWidth = 125;
+
+            //possible finetuning
+
+            blobCounter.MinHeight = Int32.Parse(blobHigh.Text);
+            blobCounter.MinWidth = Int32.Parse(blobWidth.Text);
 
             blobCounter.ProcessImage(bitmapData);
             var blobs = blobCounter.GetObjectsInformation();
@@ -227,7 +241,6 @@ namespace MKMEye
                             continue;
                         }
                             
-
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
@@ -314,6 +327,11 @@ namespace MKMEye
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            targetPic.Parent = camWindow;
+            targetPic.BackColor = Color.Transparent;
+            targetPic.Location = new Point(0, 0);
+
             cameraBitmap = new Bitmap(640, 480);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
                 cameraFilters.AudioInputDevices[0]);
@@ -491,9 +509,20 @@ namespace MKMEye
 
                 detectedCard.ImageLocation = imageURL;
 
+                XmlDocument xResultTmp =
+                    MKM.makeRequest(
+                        "https://www.mkmapi.eu/ws/v2.0/products/" + xProduct["idProduct"].InnerText,
+                        "GET");
 
+                if (xResultTmp.ChildNodes.Count != 0)
+                {
+                    xProduct = xResult.SelectSingleNode("/response/product");
 
+                    priceBox.Text = xProduct["priceGuide"]["AVG"].InnerText;
+
+                }
             }
+
         }
 
         private void CheckMKM()
@@ -535,7 +564,7 @@ namespace MKMEye
                     "<request><article><idProduct>" + pidLabel.Text + "</idProduct><idLanguage>" +
                     (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() +
                     "</idLanguage>" +
-                    "<comments></comments><count>1</count><price>1982</price><condition>"+
+                    "<comments></comments><count>1</count><price>" + priceBox.Text + "</price><condition>"+
                     conditionCombo.Text +
                     "</condition>" +
                     "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";

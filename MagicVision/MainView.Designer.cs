@@ -48,11 +48,17 @@
             this.nextButton = new System.Windows.Forms.Button();
             this.treasholdBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.blobHigh = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.blobWidth = new System.Windows.Forms.TextBox();
+            this.priceBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.targetPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.image_output)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camWindow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detectedCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetPic)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -67,7 +73,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(659, 54);
+            this.label2.Location = new System.Drawing.Point(658, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 5;
@@ -76,9 +82,9 @@
             // image_output
             // 
             this.image_output.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.image_output.Location = new System.Drawing.Point(154, 517);
+            this.image_output.Location = new System.Drawing.Point(121, 517);
             this.image_output.Name = "image_output";
-            this.image_output.Size = new System.Drawing.Size(136, 99);
+            this.image_output.Size = new System.Drawing.Size(169, 99);
             this.image_output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.image_output.TabIndex = 4;
             this.image_output.TabStop = false;
@@ -182,7 +188,7 @@
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(662, 384);
+            this.nameLabel.Location = new System.Drawing.Point(661, 339);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(103, 13);
             this.nameLabel.TabIndex = 25;
@@ -191,7 +197,7 @@
             // detectedCard
             // 
             this.detectedCard.BackColor = System.Drawing.Color.Black;
-            this.detectedCard.Location = new System.Drawing.Point(661, 70);
+            this.detectedCard.Location = new System.Drawing.Point(660, 25);
             this.detectedCard.Name = "detectedCard";
             this.detectedCard.Size = new System.Drawing.Size(212, 304);
             this.detectedCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -201,7 +207,7 @@
             // pidLabel
             // 
             this.pidLabel.AutoSize = true;
-            this.pidLabel.Location = new System.Drawing.Point(662, 405);
+            this.pidLabel.Location = new System.Drawing.Point(661, 360);
             this.pidLabel.Name = "pidLabel";
             this.pidLabel.Size = new System.Drawing.Size(93, 13);
             this.pidLabel.TabIndex = 27;
@@ -210,7 +216,7 @@
             // editionLabel
             // 
             this.editionLabel.AutoSize = true;
-            this.editionLabel.Location = new System.Drawing.Point(662, 428);
+            this.editionLabel.Location = new System.Drawing.Point(661, 383);
             this.editionLabel.Name = "editionLabel";
             this.editionLabel.Size = new System.Drawing.Size(39, 13);
             this.editionLabel.TabIndex = 29;
@@ -241,26 +247,76 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 517);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(132, 13);
+            this.label5.Size = new System.Drawing.Size(103, 13);
             this.label5.TabIndex = 32;
-            this.label5.Text = "Detection Treashold (Size)";
+            this.label5.Text = "Detection Treashold";
+            // 
+            // blobHigh
+            // 
+            this.blobHigh.Location = new System.Drawing.Point(15, 577);
+            this.blobHigh.Name = "blobHigh";
+            this.blobHigh.Size = new System.Drawing.Size(39, 20);
+            this.blobHigh.TabIndex = 34;
+            this.blobHigh.Text = "125";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 560);
+            this.label6.Location = new System.Drawing.Point(12, 561);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 13);
-            this.label6.TabIndex = 33;
-            this.label6.Text = "40000 = art at 800x600";
+            this.label6.Size = new System.Drawing.Size(95, 13);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Blob Height/Width";
+            // 
+            // blobWidth
+            // 
+            this.blobWidth.Location = new System.Drawing.Point(76, 577);
+            this.blobWidth.Name = "blobWidth";
+            this.blobWidth.Size = new System.Drawing.Size(39, 20);
+            this.blobWidth.TabIndex = 36;
+            this.blobWidth.Text = "125";
+            // 
+            // priceBox
+            // 
+            this.priceBox.Location = new System.Drawing.Point(734, 436);
+            this.priceBox.Name = "priceBox";
+            this.priceBox.Size = new System.Drawing.Size(62, 20);
+            this.priceBox.TabIndex = 37;
+            this.priceBox.Text = "1982";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(661, 439);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 13);
+            this.label7.TabIndex = 38;
+            this.label7.Text = "Price";
+            // 
+            // targetPic
+            // 
+            this.targetPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.targetPic.Enabled = false;
+            this.targetPic.Image = ((System.Drawing.Image)(resources.GetObject("targetPic.Image")));
+            this.targetPic.Location = new System.Drawing.Point(9, 30);
+            this.targetPic.Name = "targetPic";
+            this.targetPic.Size = new System.Drawing.Size(640, 480);
+            this.targetPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.targetPic.TabIndex = 39;
+            this.targetPic.TabStop = false;
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(887, 632);
-            this.Controls.Add(this.image_output);
+            this.Controls.Add(this.targetPic);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.priceBox);
+            this.Controls.Add(this.blobWidth);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.blobHigh);
+            this.Controls.Add(this.image_output);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.treasholdBox);
             this.Controls.Add(this.nextButton);
@@ -287,6 +343,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.camWindow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detectedCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetPic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,6 +369,11 @@
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.TextBox treasholdBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox blobHigh;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox blobWidth;
+        private System.Windows.Forms.TextBox priceBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox targetPic;
     }
 }
