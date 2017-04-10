@@ -41,11 +41,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
 using AForge;
@@ -53,7 +51,6 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
 using DirectX.Capture;
-using DShowNET;
 using Point = System.Drawing.Point;
 
 namespace MKMEye
@@ -372,7 +369,7 @@ namespace MKMEye
 
         private void loadSourceCards()
         {
-            using (var Reader = sql.dbResult("SELECT * FROM cards WHERE pHash != '0'"))
+            using (var Reader = sql.dbResult("SELECT * FROM cards_full WHERE pHash != '0'"))
             {
                 foreach (DataRow r in Reader.Rows)
                 {
@@ -419,7 +416,7 @@ namespace MKMEye
 
                 // Write the image to disk to be read by the pHash library.. should really find
                 // a way to pass a pointer to image data directly
-                card.cardArtBitmap.Save("tempCard" + cardTempId + ".jpg", ImageFormat.Jpeg);
+                card.cardBitmap.Save("tempCard" + cardTempId + ".jpg", ImageFormat.Jpeg);
 
 
                 // Calculate art bitmap hash
@@ -550,9 +547,9 @@ namespace MKMEye
 
                 if (xResultTmp.ChildNodes.Count != 0)
                 {
-                    xProduct = xResult.SelectSingleNode("/response/product");
+                    xProduct = xResultTmp.SelectSingleNode("/response/product/priceGuide");
 
-                    priceBox.Text = xProduct["priceGuide"]["AVG"].InnerText;
+                    priceBox.Text = xProduct["AVG"].InnerText;
 
                 }
             }
