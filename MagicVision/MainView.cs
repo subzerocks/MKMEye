@@ -73,7 +73,7 @@ namespace MKMEye
         private Bitmap filteredBitmap;
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
         public MySqlClient sql;
-        public Int32 fScaleFactor;
+        public double fScaleFactor;
 
         private string currentMatch = "";
 
@@ -349,11 +349,20 @@ namespace MKMEye
             
             Size maxSize = capture.VideoCaps.MaxFrameSize;
 
-            fScaleFactor = Convert.ToInt32(maxSize.Height / 480);
+            if (maxSize.Height > 480)
+            {
+                capture.FrameSize = new Size(800, 600);
+            }
+            else
+            {
+                capture.FrameSize = new Size(640, 480);
+            }
+
+            fScaleFactor = 1; //Convert.ToDouble(maxSize.Height) / 480;
 
             logBox.AppendText("camera at " + maxSize.Width + "/" + maxSize.Height + " (Factor " + fScaleFactor + ")\n");
 
-            capture.FrameSize = maxSize; //new Size(800, 600);
+            //capture.FrameSize = maxSize;
             capture.PreviewWindow = cam;
             capture.FrameEvent2 += CaptureDone;
             capture.GrapImg();
@@ -415,7 +424,8 @@ namespace MKMEye
 
                 // Calculate art bitmap hash
                 ulong cardHash = 0;
-                Phash.ph_dct_imagehash("tempCard" + cardTempId + ".jpg", ref cardHash);
+               // Phash.ph_dct_imagehash("tempCard" + cardTempId + ".jpg", ref cardHash);
+                Phash.ph_dct_imagehash(".\\tempCard" + cardTempId + ".jpg", ref cardHash);
 
                 var lowestHamming = int.MaxValue;
                 ReferenceCard bestMatch = null;

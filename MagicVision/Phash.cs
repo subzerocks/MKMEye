@@ -31,6 +31,7 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace MKMEye
@@ -42,7 +43,7 @@ namespace MKMEye
         private static readonly ulong h01 = 0x0101010101010101;
         private static readonly ulong m4 = 0x0f0f0f0f0f0f0f0f;
 
-        [DllImport(".\\phash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(".\\phash\\pHash.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
 
         // Calculate the similarity between two hashes

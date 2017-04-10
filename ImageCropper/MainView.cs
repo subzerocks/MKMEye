@@ -206,6 +206,9 @@ namespace ImageCropper
 
                             Rectangle cropframe = new Rectangle(x, y, x2, y2);
 
+                            GaussianBlur gbfilter = new GaussianBlur(1, 5);
+                            gbfilter.ApplyInPlace(bitmap);
+
                             Crop cropFilter = new Crop(cropframe);
                             cardArtBitmap = cropFilter.Apply(bitmap);
 
@@ -226,6 +229,9 @@ namespace ImageCropper
                 }
 
                 Console.WriteLine("Fallback Triggered!");
+
+                GaussianBlur gfilter = new GaussianBlur(1, 5);
+                gfilter.ApplyInPlace(bitmap);
 
                 //Fallback default crop, assumes XLHQ CCGHQ images
 
