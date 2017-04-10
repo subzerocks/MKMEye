@@ -45,6 +45,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
 using AForge;
@@ -52,6 +53,7 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
 using DirectX.Capture;
+using DShowNET;
 using Point = System.Drawing.Point;
 
 namespace MKMEye
@@ -71,6 +73,7 @@ namespace MKMEye
         private Bitmap filteredBitmap;
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
         public MySqlClient sql;
+        public Int32 fScaleFactor;
 
         private string currentMatch = "";
 
@@ -187,8 +190,8 @@ namespace MKMEye
 
             //possible finetuning
 
-            blobCounter.MinHeight = Int32.Parse(blobHigh.Text);
-            blobCounter.MinWidth = Int32.Parse(blobWidth.Text);
+            blobCounter.MinHeight = Convert.ToInt32(Int32.Parse(blobHigh.Text) * fScaleFactor);
+            blobCounter.MinWidth = Convert.ToInt32(Int32.Parse(blobWidth.Text) * fScaleFactor);
 
             blobCounter.ProcessImage(bitmapData);
             var blobs = blobCounter.GetObjectsInformation();
@@ -228,7 +231,7 @@ namespace MKMEye
                         // Prevent it from detecting the same card twice
                         foreach (var point in cardPositions)
                         {
-                            if (corners[0].DistanceTo(point) < 40)
+                            if (corners[0].DistanceTo(point) < Convert.ToInt32(40 * fScaleFactor))
                                 sameCard = true;
                         }
 
@@ -237,32 +240,28 @@ namespace MKMEye
                         
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                        if (GetArea(corners) < Double.Parse(treasholdBox.Text))
+                        if (GetArea(corners) < Convert.ToInt32(Double.Parse(treasholdBox.Text) * fScaleFactor))
                         {
                             continue;
                         }
-
-                        /*if (GetArea(corners) > 150000)
-                        {
-                            continue;
-                        }*/
 
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
 
                         // Extract the card bitmap
-                        var transformFilter = new QuadrilateralTransformation(corners, 211, 298);
+                        var transformFilter = new QuadrilateralTransformation(corners, Convert.ToInt32(211 *fScaleFactor), Convert.ToInt32(298 *fScaleFactor));
                         cardBitmap = transformFilter.Apply(cameraBitmap);
 
+                        //extract Art
                         var artCorners = new List<IntPoint>();
-                        artCorners.Add(new IntPoint(14, 35));
-                        artCorners.Add(new IntPoint(193, 35));
-                        artCorners.Add(new IntPoint(193, 168));
-                        artCorners.Add(new IntPoint(14, 168));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor), Convert.ToInt32(35 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor), Convert.ToInt32(35 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor), Convert.ToInt32(168 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor), Convert.ToInt32(168 * fScaleFactor)));
 
                         // Extract the art bitmap
-                        var cartArtFilter = new QuadrilateralTransformation(artCorners, 183, 133);
+                        var cartArtFilter = new QuadrilateralTransformation(artCorners, Convert.ToInt32(183 *fScaleFactor), Convert.ToInt32(133 *fScaleFactor));
                         cardArtBitmap = cartArtFilter.Apply(cardBitmap);
 
                         var card = new MagicCard();
@@ -337,7 +336,6 @@ namespace MKMEye
             }
         }
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -348,8 +346,14 @@ namespace MKMEye
             cameraBitmap = new Bitmap(800, 600);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
                 cameraFilters.AudioInputDevices[0]);
-            var vc = capture.VideoCaps;
-            capture.FrameSize = new Size(800, 600);
+            
+            Size maxSize = capture.VideoCaps.MaxFrameSize;
+
+            fScaleFactor = Convert.ToInt32(maxSize.Height / 480);
+
+            logBox.AppendText("camera at " + maxSize.Width + "/" + maxSize.Height + " (Factor " + fScaleFactor + ")\n");
+
+            capture.FrameSize = maxSize; //new Size(800, 600);
             capture.PreviewWindow = cam;
             capture.FrameEvent2 += CaptureDone;
             capture.GrapImg();
