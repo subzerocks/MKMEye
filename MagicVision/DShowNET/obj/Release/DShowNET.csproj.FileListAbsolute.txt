@@ -1,7 +1,7 @@
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DShowNET\bin\Release\DShowNET.dll
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DShowNET\obj\Release\ResolveAssemblyReference.cache
 C:\Users\Pete\Dropbox\Projects\Fun\PoolVision\PoolVision\DShowNET\obj\Release\DShowNET.dll
-C:\Users\10110\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Release\DShowNET.dll
-C:\Users\10110\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Release\DShowNET.dll
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Release\DShowNET.dll
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Release\DShowNET.dll
+C:\Users\10110\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Release\DShowNET.dll
+C:\Users\10110\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Release\DShowNET.dll

@@ -4,6 +4,16 @@ Sell on MKM/MagicKartenMarkt (or MCM for international folks -> https://www.magi
 
 This software allows you to identify cards by image recognition, match them to the MKM stock and directly sell them on the marketplace, making adding bulk cards to MKM as easy as possible.
 
+[![MKMEye Video](https://www.alexander-pick.com/github/screen.JPG)](https://www.youtube.com/watch?v=JfRXl8Rf47I "MKMEye Video")
+
+#### Quick Start downloads
+
+Here are some working binaries and the needed assets for your enjoyment. These are not updated with every push so this version might be a bit outdated towards the real source version:
+
+- [MKMEye 01.b](https://www.alexander-pick.com/github/MKMEye-01b-Release_11042017.rar)
+- [ImageDBCreator](https://www.alexander-pick.com/github/ImageDBCreator-01b-Release_11042017.rar)
+- [Needed Assets](https://www.alexander-pick.com/github/Assets_11042017.rar)
+
 #### The GUI has 3 Hokeys
 
 Q - check the cam identified card against the mkm database, the mkm match will be shown in the top right corner
@@ -34,17 +44,19 @@ https://dev.mysql.com/downloads/connector/net/6.9.html
 
 3.) Get the CCGHQ XLHQ MTG Images (around 13 Gb + the newer set singles CCGHQ) 
 
-4.) Compile and run the ImageDBCreator (inside this project) to build the pHash DB from the images. Be sure you edit the config to match it your database. Point it to the extracted XLHQ images (or other source) and let it run.
+4.) Compile or download the ImageDBCreator and edit the config to match your MySQL DB.
+
+5.) Run the ImageDBCreator to build the pHash DB from the images. Point it to the extracted XLHQ images (or other source) and let it run, this might take a while.
 
 #### Running MKMEye
 
-1.) compile the MKMEye Project
+1.) Compile or download the MKMEye
 
 2.) Change the config and add your MKM Api Key + MySQL Details
 
 3.) Start scanning and selling
 
-**Supporters can request a copy of my personal pHash DB.
+**Supporters can request a copy of my personal pHash DB, just leave me a message.
 
 ### Some Notes
 
