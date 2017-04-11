@@ -36,8 +36,6 @@ https://dev.mysql.com/downloads/connector/net/6.9.html
 
 4.) Compile and run the ImageDBCreator (inside this project) to build the pHash DB from the images. Be sure you edit the config to match it your database. 
 
-Hint: If you need to crop the art first, use the included cropping tool.
-
 #### Running MKMEye
 
 1.) compile the MKMEye Project
@@ -50,8 +48,8 @@ Hint: If you need to crop the art first, use the included cropping tool.
 
 ### Some Notes
 
-- I tried to only match the art and the full card image. The cropped art card works best if you use the original MV settings.
-- If you need a tool to crop art from images, i.e. the widly known xlhq images, it is included in this repo too.
+- I tried to only match the art and the full card image. From various tests I decided to go with matching the full card, it works pretty well.
+- If you need a tool to crop art from images anyways, i.e. the widly known xlhq images, it is included in this repo too. For the process is has not much use anymore.
 - Tool adds articles with MKM AVG prices, if you are luck, this works very well with the price update of my MKMTool project which could be found here: https://github.com/alexander-pick/MKMTool
 - Watch what you add to mkm, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
 
