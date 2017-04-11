@@ -32,9 +32,9 @@ https://dev.mysql.com/downloads/connector/net/6.9.html
 
 2.) Create a database and add the "cards" table structure (included in /Assets)
 
-3.) Get the XLHQ MTG Images (around 13 Gb + the newer set singles CCGHQ) 
+3.) Get the CCGHQ XLHQ MTG Images (around 13 Gb + the newer set singles CCGHQ) 
 
-4.) Compile and run the ImageDBCreator (inside this project) to build the pHash DB from the images. Be sure you edit the config to match it your database. 
+4.) Compile and run the ImageDBCreator (inside this project) to build the pHash DB from the images. Be sure you edit the config to match it your database. Point it to the extracted XLHQ images (or other source) and let it run.
 
 #### Running MKMEye
 
@@ -44,30 +44,27 @@ https://dev.mysql.com/downloads/connector/net/6.9.html
 
 3.) Start scanning and selling
 
-**Donators can request a copy of my personal pHash DB.
+**Supporters can request a copy of my personal pHash DB.
 
 ### Some Notes
 
 - I tried to only match the art and the full card image. From various tests I decided to go with matching the full card, it works pretty well.
 - If you need a tool to crop art from images anyways, i.e. the widly known xlhq images, it is included in this repo too. For the process is has not much use anymore.
 - Tool adds articles with MKM AVG prices, if you are luck, this works very well with the price update of my MKMTool project which could be found here: https://github.com/alexander-pick/MKMTool
+- Creating the MySQL DB might take an hour or two. Don't be afraid if the tool is not responding, I didn't pay much attention to make it fancy task supported, but it will work.
 - Watch what you add to mkm, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
 
-### And finally
+### Support & Donations
 
 The development of this tool cost me a lot of time recently but it was worth it to see it done now. If you like this tool or you are a LGS/Powerseller which wants to use it everyday, please consider a donation.
 
-You can donate me some bitcoin leftovers to my wallet here:
-
-13Jjvvnmn6t1ytbqWTZaio1zWNVWpbcEpG
-
-Or by me something of my amazon wishlist here:
+You can bye me something of my amazon wishlist here:
 
 https://www.amazon.de/registry/wishlist/PY25W6O71YIV/ref=cm_sw_em_r_mt_ws__ugkRybY0HFNYD
 
-*Sorry I don’t have paypal.*
-
 **If you are producing a commercial product and need some help with the MKM API or you want to integrate some of my code in your application, feel free to contact me.**
+
+### And finally some more links
 
 Original Magic Vision Release:
 https://www.reddit.com/r/magicTCG/comments/lccrx/full_source_code_of_the_mtg_card_image/
