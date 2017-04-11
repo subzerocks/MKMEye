@@ -67,12 +67,16 @@ namespace MKMEye
         private Bitmap cardArtBitmap;
         private Bitmap cardBitmap;
         private int currentIndex = 1;
-        private Bitmap filteredBitmap;
-        private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
-        public MySqlClient sql;
-        public double fScaleFactor;
 
         private string currentMatch = "";
+        private Bitmap filteredBitmap;
+        public double fScaleFactor;
+
+        //prevent multiple events
+        private bool keystroke;
+
+        private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
+        public MySqlClient sql;
 
         private XmlDocument xResult = new XmlDocument();
 
@@ -80,7 +84,7 @@ namespace MKMEye
         {
             InitializeComponent();
 
-            this.KeyPreview = true;
+            KeyPreview = true;
 
             if (!File.Exists(@".\\config.xml"))
             {
@@ -97,7 +101,8 @@ namespace MKMEye
 
                 var SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
                                    "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
-                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText + ";" +
+                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText +
+                                   ";" +
                                    "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
                                    "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
                                    "Allow Zero Datetime=true;";
@@ -105,7 +110,6 @@ namespace MKMEye
                 sql = new MySqlClient(SqlConString);
 
                 foreach (var Lang in MKM.dLanguages)
-                {
                     try
                     {
                         var item = new MKM.ComboboxItem();
@@ -121,7 +125,6 @@ namespace MKMEye
                     {
                         MessageBox.Show(e.Message);
                     }
-                }
 
                 conditionCombo.SelectedIndex = 1;
             }
@@ -135,22 +138,18 @@ namespace MKMEye
 
         private double GetDeterminant(double x1, double y1, double x2, double y2)
         {
-            return x1*y2 - x2*y1;
+            return x1 * y2 - x2 * y1;
         }
 
         private double GetArea(IList<IntPoint> vertices)
         {
             if (vertices.Count < 3)
-            {
                 return 0;
-            }
             var area = GetDeterminant(vertices[vertices.Count - 1].X, vertices[vertices.Count - 1].Y, vertices[0].X,
                 vertices[0].Y);
             for (var i = 1; i < vertices.Count; i++)
-            {
                 area += GetDeterminant(vertices[i - 1].X, vertices[i - 1].Y, vertices[i].X, vertices[i].Y);
-            }
-            return area/2;
+            return area / 2;
         }
 
         private void detectQuads(Bitmap bitmap)
@@ -187,8 +186,8 @@ namespace MKMEye
 
             //possible finetuning
 
-            blobCounter.MinHeight = Convert.ToInt32(Int32.Parse(blobHigh.Text) * fScaleFactor);
-            blobCounter.MinWidth = Convert.ToInt32(Int32.Parse(blobWidth.Text) * fScaleFactor);
+            blobCounter.MinHeight = Convert.ToInt32(int.Parse(blobHigh.Text) * fScaleFactor);
+            blobCounter.MinWidth = Convert.ToInt32(int.Parse(blobWidth.Text) * fScaleFactor);
 
             blobCounter.ProcessImage(bitmapData);
             var blobs = blobCounter.GetObjectsInformation();
@@ -227,38 +226,40 @@ namespace MKMEye
 
                         // Prevent it from detecting the same card twice
                         foreach (var point in cardPositions)
-                        {
                             if (corners[0].DistanceTo(point) < Convert.ToInt32(40 * fScaleFactor))
                                 sameCard = true;
-                        }
 
                         if (sameCard)
                             continue;
-                        
+
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                        if (GetArea(corners) < Convert.ToInt32(Double.Parse(treasholdBox.Text) * fScaleFactor))
-                        {
+                        if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor))
                             continue;
-                        }
 
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
 
                         // Extract the card bitmap
-                        var transformFilter = new QuadrilateralTransformation(corners, Convert.ToInt32(211 *fScaleFactor), Convert.ToInt32(298 *fScaleFactor));
+                        var transformFilter = new QuadrilateralTransformation(corners,
+                            Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
                         cardBitmap = transformFilter.Apply(cameraBitmap);
 
                         //extract Art
                         var artCorners = new List<IntPoint>();
-                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor), Convert.ToInt32(35 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor), Convert.ToInt32(35 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor), Convert.ToInt32(168 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor), Convert.ToInt32(168 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
+                            Convert.ToInt32(35 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
+                            Convert.ToInt32(35 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
+                            Convert.ToInt32(168 * fScaleFactor)));
+                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
+                            Convert.ToInt32(168 * fScaleFactor)));
 
                         // Extract the art bitmap
-                        var cartArtFilter = new QuadrilateralTransformation(artCorners, Convert.ToInt32(183 *fScaleFactor), Convert.ToInt32(133 *fScaleFactor));
+                        var cartArtFilter = new QuadrilateralTransformation(artCorners,
+                            Convert.ToInt32(183 * fScaleFactor), Convert.ToInt32(133 * fScaleFactor));
                         cardArtBitmap = cartArtFilter.Apply(cardBitmap);
 
                         var card = new MagicCard();
@@ -285,7 +286,7 @@ namespace MKMEye
         }
 
         // Move the corners a fixed amount
- /*       private void shiftCorners(List<IntPoint> corners, IntPoint point)
+        /*       private void shiftCorners(List<IntPoint> corners, IntPoint point)
         {
             var xOffset = point.X - corners[0].X;
             var yOffset = point.Y - corners[0].Y;
@@ -317,13 +318,11 @@ namespace MKMEye
             var shortestSide = int.MaxValue;
 
             for (var x = 0; x < corners.Count; x++)
-            {
                 if (pointDistances[x] < shortestDist)
                 {
                     shortestSide = x;
                     shortestDist = pointDistances[x];
                 }
-            }
 
             if (shortestSide != 0 && shortestSide != 2)
             {
@@ -335,7 +334,6 @@ namespace MKMEye
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             targetPic.Parent = camWindow;
             targetPic.BackColor = Color.Transparent;
             targetPic.Location = new Point(0, 30);
@@ -343,17 +341,13 @@ namespace MKMEye
             cameraBitmap = new Bitmap(800, 600);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
                 cameraFilters.AudioInputDevices[0]);
-            
-            Size maxSize = capture.VideoCaps.MaxFrameSize;
+
+            var maxSize = capture.VideoCaps.MaxFrameSize;
 
             if (maxSize.Height > 480)
-            {
                 capture.FrameSize = new Size(800, 600);
-            }
             else
-            {
                 capture.FrameSize = new Size(640, 480);
-            }
 
             fScaleFactor = 1; //Convert.ToDouble(maxSize.Height) / 480;
 
@@ -421,7 +415,7 @@ namespace MKMEye
 
                 // Calculate art bitmap hash
                 ulong cardHash = 0;
-               // Phash.ph_dct_imagehash("tempCard" + cardTempId + ".jpg", ref cardHash);
+                // Phash.ph_dct_imagehash("tempCard" + cardTempId + ".jpg", ref cardHash);
                 Phash.ph_dct_imagehash(".\\tempCard" + cardTempId + ".jpg", ref cardHash);
 
                 var lowestHamming = int.MaxValue;
@@ -451,10 +445,6 @@ namespace MKMEye
                         new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
                     g.Dispose();
                 }
-                else
-                {
-                    //Console.WriteLine("No Best Match found!\n");
-                }
             }
         }
 
@@ -465,19 +455,13 @@ namespace MKMEye
             var array = new Point[points.Count];
 
             for (int i = 0, n = points.Count; i < n; i++)
-            {
                 array[i] = new Point(points[i].X, points[i].Y);
-            }
 
             return array;
         }
 
-        //prevent multiple events
-        bool keystroke = false;
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            
             Console.WriteLine(keyData.ToString());
 
             if (keyData == Keys.Q)
@@ -497,12 +481,10 @@ namespace MKMEye
                 addMKM();
                 keystroke = true;
                 return true;
-
             }
 
             keystroke = false;
             return base.ProcessCmdKey(ref msg, keyData);
-            
         }
 
         private void checkMKMButton_Click(object sender, EventArgs e)
@@ -518,9 +500,7 @@ namespace MKMEye
                 var count = xResult.GetElementsByTagName("product").Count;
 
                 if (currentIndex > count)
-                {
                     currentIndex = 1;
-                }
 
                 var xProduct = xResult.SelectSingleNode("/response/product[" + currentIndex + "]");
 
@@ -534,13 +514,13 @@ namespace MKMEye
 
                 editionLabel.Text = xProduct["expansionName"].InnerText;
 
-                string imageURL = "https://www.magickartenmarkt.de/" + xProduct["image"].InnerText;
+                var imageURL = "https://www.magickartenmarkt.de/" + xProduct["image"].InnerText;
 
                 Console.WriteLine(imageURL);
 
                 detectedCard.ImageLocation = imageURL;
 
-                XmlDocument xResultTmp =
+                var xResultTmp =
                     MKM.makeRequest(
                         "https://www.mkmapi.eu/ws/v2.0/products/" + xProduct["idProduct"].InnerText,
                         "GET");
@@ -550,10 +530,8 @@ namespace MKMEye
                     xProduct = xResultTmp.SelectSingleNode("/response/product/priceGuide");
 
                     priceBox.Text = xProduct["AVG"].InnerText;
-
                 }
             }
-
         }
 
         private void CheckMKM()
@@ -580,28 +558,26 @@ namespace MKMEye
 
         private void addMKM()
         {
+            logBox.AppendText(pidLabel.Text + " " + nameLabel.Text + " (" +
+                              (langCombo.SelectedItem as MKM.ComboboxItem).Value + "\\" +
+                              conditionCombo.Text + ")\n");
 
-                    logBox.AppendText(pidLabel.Text + " " + nameLabel.Text + " (" + 
-                        (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() + "\\" +
-                        conditionCombo.Text + ")\n");
+            /*
+             3. Add an article to the user's stock:
 
-                    /*
-                     3. Add an article to the user's stock:
+            POST https://www.mkmapi.eu/ws/v2.0/stock
+            */
 
-                    POST https://www.mkmapi.eu/ws/v2.0/stock
-                    */
+            var xBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                        "<request><article><idProduct>" + pidLabel.Text + "</idProduct><idLanguage>" +
+                        (langCombo.SelectedItem as MKM.ComboboxItem).Value +
+                        "</idLanguage>" +
+                        "<comments></comments><count>1</count><price>" + priceBox.Text + "</price><condition>" +
+                        conditionCombo.Text +
+                        "</condition>" +
+                        "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";
 
-                    var xBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
-                    "<request><article><idProduct>" + pidLabel.Text + "</idProduct><idLanguage>" +
-                    (langCombo.SelectedItem as MKM.ComboboxItem).Value.ToString() +
-                    "</idLanguage>" +
-                    "<comments></comments><count>1</count><price>" + priceBox.Text + "</price><condition>"+
-                    conditionCombo.Text +
-                    "</condition>" +
-                    "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";
-
-                    MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
-
+            MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
         }
 
         private void addMKMButton_Click(object sender, EventArgs e)
@@ -615,4 +591,3 @@ namespace MKMEye
         }
     }
 }
- 

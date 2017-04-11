@@ -31,7 +31,6 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace MKMEye
@@ -55,7 +54,7 @@ namespace MKMEye
             x -= (x >> 1) & m1;
             x = (x & m2) + ((x >> 2) & m2);
             x = (x + (x >> 4)) & m4;
-            var res = (x*h01) >> 56;
+            var res = (x * h01) >> 56;
 
             return (int) res;
         }

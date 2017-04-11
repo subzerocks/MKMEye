@@ -146,27 +146,19 @@ namespace MKMEye
                     var args = ParseQueryString(urlParams);
 
                     foreach (var k in args)
-                    {
                         headerParams.Add(k.Key, k.Value);
-                    }
                 }
 
                 /// Gather, encode, and sort the base string parameters
                 var encodedParams = new SortedDictionary<string, string>();
                 foreach (var parameter in headerParams)
-                {
                     if (false == parameter.Key.Equals("realm"))
-                    {
                         encodedParams.Add(Uri.EscapeDataString(parameter.Key), Uri.EscapeDataString(parameter.Value));
-                    }
-                }
 
                 /// Expand the base string by the encoded parameter=value pairs
                 var paramStrings = new List<string>();
                 foreach (var parameter in encodedParams)
-                {
                     paramStrings.Add(parameter.Key + "=" + parameter.Value);
-                }
                 var paramString = Uri.EscapeDataString(string.Join<string>("&", paramStrings));
                 baseString += paramString;
 
@@ -183,9 +175,7 @@ namespace MKMEye
                 /// Construct the header string
                 var headerParamStrings = new List<string>();
                 foreach (var parameter in headerParams)
-                {
                     headerParamStrings.Add(parameter.Key + "=\"" + parameter.Value + "\"");
-                }
                 var authHeader = "OAuth " + string.Join<string>(", ", headerParamStrings);
 
                 return authHeader;

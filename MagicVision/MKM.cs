@@ -40,39 +40,24 @@ namespace MKMEye
 {
     internal class MKM
     {
-        public class ComboboxItem
-        {
-            public string Text { get; set; }
-            public object Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-
         public static Dictionary<string, string> dLanguages = new Dictionary<string, string>
         {
             {
                 "1",
                 "English"
-            }
-            ,
+            },
             {
                 "3",
                 "German"
-            }
-            ,
+            },
             {
                 "2",
                 "French"
-            }
-            ,
+            },
             {
                 "4",
                 "Spanish"
-            }
-            ,
+            },
             {
                 "5",
                 "Italian"
@@ -80,28 +65,23 @@ namespace MKMEye
             {
                 "6",
                 "Simplified Chinese"
-            }
-            ,
+            },
             {
                 "7",
                 "Japanese"
-            }
-            ,
+            },
             {
                 "8",
                 "Portuguese"
-            }
-            ,
+            },
             {
                 "9",
                 "Russian"
-            }
-            ,
+            },
             {
                 "10",
                 "Korean"
-            }
-            ,
+            },
             {
                 "11",
                 "Traditional Chinese"
@@ -134,6 +114,17 @@ namespace MKMEye
             doc.Load(response.GetResponseStream());
 
             return doc;
+        }
+
+        public class ComboboxItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
         }
     }
 }

@@ -31,7 +31,6 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 
@@ -59,6 +58,5 @@ namespace MKMEye
 
             return selectDT;
         }
-
     }
 }

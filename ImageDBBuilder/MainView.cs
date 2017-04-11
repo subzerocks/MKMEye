@@ -1,33 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.IO.Compression;
 using System.Xml;
+using Newtonsoft.Json.Linq;
 
 namespace ImageDBBuilder
 {
     public partial class MainView : Form
     {
         public MySqlClient sql;
-
-        public class Phash
-        {
-
-            [DllImport(".\\phash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
-
-        }
 
         public MainView()
         {
@@ -41,13 +26,13 @@ namespace ImageDBBuilder
 
                 var SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
                                    "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
-                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText + ";" +
+                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText +
+                                   ";" +
                                    "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
                                    "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
                                    "Allow Zero Datetime=true;";
 
                 sql = new MySqlClient(SqlConString);
-
             }
             catch (Exception e)
             {
@@ -69,9 +54,7 @@ namespace ImageDBBuilder
             try
             {
                 if (File.Exists(cardsPath))
-                {
                     File.Delete(cardsPath);
-                }
 
                 ZipFile.ExtractToDirectory(zipPath, @".\\");
 
@@ -83,11 +66,9 @@ namespace ImageDBBuilder
 
                 foreach (var edition in jsonData.SelectTokens("$.*"))
                 {
-
                     var jcards = JArray.Parse(edition.SelectToken("$.cards").ToString());
 
                     foreach (var jcard in jcards)
-                    {
                         try
                         {
                             logBox.AppendText("Processing " + jcard["multiverseid"] + "\n");
@@ -98,14 +79,15 @@ namespace ImageDBBuilder
 
                             //var charsToRemove = new string[] { "@", ":", ";" };
 
-                            string sFilteredFilename = jcard["imageName"].ToString();
+                            var sFilteredFilename = jcard["imageName"].ToString();
 
                             /*foreach (var c in charsToRemove)
                             {
                                 sFilteredFilename = sFilteredFilename.Replace(c, string.Empty);
                             }*/
 
-                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename + postfixBox.Text + ".jpg";
+                            var imageLocalJPG = pathBox.Text + "\\" + edition["code"] + "\\" + sFilteredFilename +
+                                                postfixBox.Text + ".jpg";
 
                             if (!File.Exists(imageLocalJPG))
                             {
@@ -123,19 +105,15 @@ namespace ImageDBBuilder
                                 "')";
 
                             logBox.AppendText(sSQLString + "\n");
-                        
-                            if (jcard["multiverseid"].ToString() != "")
-                            {
-                                sql.dbNone(sSQLString);
-                            }
 
+                            if (jcard["multiverseid"].ToString() != "")
+                                sql.dbNone(sSQLString);
                         }
                         catch (Exception e)
                         {
                             // just catch
                             //MessageBox.Show(e.Message);
                         }
-                    }
                 }
 
                 //Console.WriteLine(jsonData.ToString());
@@ -165,7 +143,12 @@ namespace ImageDBBuilder
 
         private void browseButton_Click(object sender, EventArgs e)
         {
+        }
 
+        public class Phash
+        {
+            [DllImport(".\\phash\\phash.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ph_dct_imagehash(string file_name, ref ulong Hash);
         }
     }
 }
