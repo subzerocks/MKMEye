@@ -22,7 +22,7 @@ This software allows you to identify cards by image recognition, match them to t
 
 Here are some working binaries and the needed assets for your enjoyment. These are not updated with every push so this version might be a bit outdated towards the real source version:
 
-- [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_11042017.rar)
+- [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_07102017.rar)
 
 The download includes a refrence DB from the day one of MTG to the end of 2016.
 
