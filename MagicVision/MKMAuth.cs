@@ -77,10 +77,10 @@ namespace MKMEye
 
                 xConfigFile.Load(@".//config.xml");
 
-                appToken = xConfigFile["config"]["mkm"]["appToken"].InnerText;
-                appSecret = xConfigFile["config"]["mkm"]["appSecret"].InnerText;
-                accessToken = xConfigFile["config"]["mkm"]["accessToken"].InnerText;
-                accessSecret = xConfigFile["config"]["mkm"]["accessSecret"].InnerText;
+                appToken = xConfigFile["config"]["appToken"].InnerText;
+                appSecret = xConfigFile["config"]["appSecret"].InnerText;
+                accessToken = xConfigFile["config"]["accessToken"].InnerText;
+                accessSecret = xConfigFile["config"]["accessSecret"].InnerText;
 
                 // String nonce = Guid.NewGuid().ToString("n");
                 var nonce = "53eb1f44909d6";

@@ -27,3 +27,8 @@ C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Debug\DShowNET.pdb
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.csprojResolveAssemblyReference.cache
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.dll
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.pdb
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Debug\DShowNET.dll
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DShowNET\bin\Debug\DShowNET.pdb
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.csproj.CoreCompileInputs.cache
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.dll
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DShowNET\obj\Debug\DShowNET.pdb

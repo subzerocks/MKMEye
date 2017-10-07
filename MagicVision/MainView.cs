@@ -76,9 +76,14 @@ namespace MKMEye
         private bool keystroke;
 
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
-        public MySqlClient sql;
+        private SQLiteClient ssSql;
 
         private XmlDocument xResult = new XmlDocument();
+
+        private Timer timer1;
+
+        // detecting matrix, stores detected cards to avoid fail detection
+        private Dictionary<string, int> bestMatches = new Dictionary<string, int>();
 
         public MainView()
         {
@@ -95,19 +100,7 @@ namespace MKMEye
 
             try
             {
-                var xConfigFile = new XmlDocument();
-
-                xConfigFile.Load(@".\\config.xml");
-
-                var SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
-                                   "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
-                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText +
-                                   ";" +
-                                   "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
-                                   "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
-                                   "Allow Zero Datetime=true;";
-
-                sql = new MySqlClient(SqlConString);
+                ssSql = new SQLiteClient("Data Source=cards.sqlite;Version=3;");
 
                 foreach (var Lang in MKM.dLanguages)
                     try
@@ -134,7 +127,19 @@ namespace MKMEye
 
                 Application.Exit();
             }
+
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(garbageFire);
+            timer1.Interval = 3000; // in miliseconds
+            timer1.Start();
         }
+
+        //flushs the detection cache
+        private void garbageFire(object sender, EventArgs e)
+        {
+            bestMatches = new Dictionary<string, int>();
+        }
+
 
         private double GetDeterminant(double x1, double y1, double x2, double y2)
         {
@@ -247,20 +252,20 @@ namespace MKMEye
                         cardBitmap = transformFilter.Apply(cameraBitmap);
 
                         //extract Art
-                        var artCorners = new List<IntPoint>();
-                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
-                            Convert.ToInt32(35 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
-                            Convert.ToInt32(35 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
-                            Convert.ToInt32(168 * fScaleFactor)));
-                        artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
-                            Convert.ToInt32(168 * fScaleFactor)));
+                        /* var artCorners = new List<IntPoint>();
+                         artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
+                             Convert.ToInt32(35 * fScaleFactor)));
+                         artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
+                             Convert.ToInt32(35 * fScaleFactor)));
+                         artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
+                             Convert.ToInt32(168 * fScaleFactor)));
+                         artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
+                             Convert.ToInt32(168 * fScaleFactor)));
 
-                        // Extract the art bitmap
-                        var cartArtFilter = new QuadrilateralTransformation(artCorners,
-                            Convert.ToInt32(183 * fScaleFactor), Convert.ToInt32(133 * fScaleFactor));
-                        cardArtBitmap = cartArtFilter.Apply(cardBitmap);
+                         // Extract the art bitmap
+                         var cartArtFilter = new QuadrilateralTransformation(artCorners,
+                             Convert.ToInt32(183 * fScaleFactor), Convert.ToInt32(133 * fScaleFactor));
+                         cardArtBitmap = cartArtFilter.Apply(cardBitmap);*/
 
                         var card = new MagicCard();
                         card.corners = corners;
@@ -363,7 +368,7 @@ namespace MKMEye
 
         private void loadSourceCards()
         {
-            using (var Reader = sql.dbResult("SELECT * FROM cards WHERE pHash != '0'"))
+            using (var Reader = ssSql.dbResult("SELECT * FROM cards WHERE pHash != '0'"))
             {
                 foreach (DataRow r in Reader.Rows)
                 {
@@ -387,7 +392,7 @@ namespace MKMEye
                 magicCardsLastFrame = new List<MagicCard>(magicCards);
                 magicCards.Clear();
                 cameraBitmap = e;
-                cameraBitmapLive = (Bitmap) cameraBitmap.Clone();
+                cameraBitmapLive = (Bitmap)cameraBitmap.Clone();
                 detectQuads(cameraBitmap);
                 matchCard();
 
@@ -401,6 +406,7 @@ namespace MKMEye
             //Console.WriteLine("matchCard() called with " +  magicCards.Count + " cards detected");
 
             var cardTempId = 0;
+
             foreach (var card in magicCards)
             {
                 cardTempId++;
@@ -415,6 +421,7 @@ namespace MKMEye
 
                 // Calculate art bitmap hash
                 ulong cardHash = 0;
+
                 // Phash.ph_dct_imagehash("tempCard" + cardTempId + ".jpg", ref cardHash);
                 Phash.ph_dct_imagehash(".\\tempCard" + cardTempId + ".jpg", ref cardHash);
 
@@ -431,10 +438,52 @@ namespace MKMEye
                     }
                 }
 
-                if (bestMatch != null)
+
+                if ((bestMatch != null))
+                {
+
+#if DEBUG
+                    Console.WriteLine("DEBUG: Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
+#endif
+
+                    if (bestMatches.ContainsKey(bestMatch.cardId))
+                    {
+                        bestMatches[bestMatch.cardId] += 1;
+
+                        //Console.WriteLine("DEBUG: Plused " + bestMatch.name + " in matrix.");
+                    }
+                    else
+                    {
+                        bestMatches[bestMatch.cardId] = 1;
+
+                        //Console.WriteLine("DEBUG: Added " + bestMatch.name + " to matrix.");
+                    }
+
+                    //Console.WriteLine("DEBUG: Checking " + bestMatches[bestMatch.cardId]);
+
+ 
+                    int maxValue = 0;
+                    string bestMatchId = null;
+
+                    foreach (var match in bestMatches)
+                    {
+                        if(match.Value > maxValue)
+                        {
+                            maxValue = match.Value;
+                            bestMatchId = match.Key;
+                        }
+                    }
+
+                    if (bestMatchId != bestMatch.cardId)
+                    {
+                        continue;
+                    }
+
+                }
+
+                if ((bestMatch != null))
                 {
                     card.referenceCard = bestMatch;
-                    //Console.WriteLine("Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
 
                     currentMatch = bestMatch.name;
 
@@ -444,6 +493,7 @@ namespace MKMEye
                     g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Red,
                         new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
                     g.Dispose();
+
                 }
             }
         }
@@ -489,6 +539,8 @@ namespace MKMEye
 
         private void checkMKMButton_Click(object sender, EventArgs e)
         {
+
+            bestMatches = new Dictionary<string, int>();
             CheckMKM();
         }
 
