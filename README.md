@@ -1,4 +1,6 @@
-# MKMEYE
+MKMEYE
+
+![MKMEye Logo](https://www.alexander-pick.com/github/logo.png)
 
 #### Whats is this?
 
@@ -21,8 +23,8 @@ This software allows you to identify cards by image recognition, match them to t
 Here are some working binaries and the needed assets for your enjoyment. These are not updated with every push so this version might be a bit outdated towards the real source version:
 
 - [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_11042017.rar)
-- [ImageDBCreator](https://www.alexander-pick.com/github/ImageDBCreator-01b-Release_11042017.rar)
-- [Needed Assets](https://www.alexander-pick.com/github/Assets_11042017.rar)
+
+The download includes a refrence DB from the day one of MTG to the end of 2016.
 
 #### The GUI has 3 Hokeys
 
