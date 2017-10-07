@@ -134,7 +134,7 @@ namespace MKMEye
             timer1.Start();
         }
 
-        //flushs the detection cache
+        //flushs the detection cache - yes the name is from a card in conspiracy ;)
         private void garbageFire(object sender, EventArgs e)
         {
             bestMatches = new Dictionary<string, int>();
