@@ -10,8 +10,6 @@ Sell on MKM / MagicKartenMarkt (or MCM / MagicCardMarket for international folks
 
 This software allows you to identify cards by image recognition, match them to the MKM stock and directly sell them on the marketplace, making adding bulk cards to MKM as easy as possible.
 
-[![MKMEye Video](https://www.alexander-pick.com/github/screen.JPG)](https://www.youtube.com/watch?v=JfRXl8Rf47I "MKMEye Video")
-
 #### Changelog
 
 08.10.2017
@@ -58,7 +56,6 @@ At the moment my personal goal is to sell that much Bulk that way so that I can 
 
 3.) Start scanning and selling
 
-
 ### Some Notes
 
 - I tried to only match the art and the full card image. From various tests I decided to go with matching the full card, it works pretty well.
@@ -71,18 +68,37 @@ At the moment my personal goal is to sell that much Bulk that way so that I can 
 
 The development of this tool cost me a lot of time recently but it was worth it to see it done now. If you like this tool or you are a LGS/Powerseller which wants to use it everyday, please consider a donation.
 
-You can buy me something of my amazon wishlist here:
+Send me a paypal donation to paypal@alexander-pick.de
+
+Or you can buy me something of my amazon wishlist here:
 
 https://www.amazon.de/registry/wishlist/PY25W6O71YIV/ref=cm_sw_em_r_mt_ws__ugkRybY0HFNYD
 
-Or send me a paypal donation to paypal@alexander-pick.de
+### License
+
+MKMEye developed by Alexander Pick - Copyright 2017
+Based on Magic Vision Created by Peter Simard - Copyright 2010
+
+MKMEye is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. MKMEye is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with MKMEye.  If not, see <http://www.gnu.org/licenses/>.
 
 **If you are producing a commercial product and need some help with the MKM API or you want to integrate some of my code in your application, feel free to contact me.**
 
-### And finally some more links
+### And some important links (technology used etc.)
+
+AForge
+http://www.aforgenet.com/
+
+Pash
+https://www.phash.org/
+
+A .NET wrapper for tesseract-ocr 3.04.
+https://github.com/charlesw/tesseract
 
 Original Magic Vision Release:
 https://www.reddit.com/r/magicTCG/comments/lccrx/full_source_code_of_the_mtg_card_image/
 
 Source for the JSON used by the scraper to get the multiverseid needed for the gatherer image download:
 https://mtgjson.com/
+
+My Website
+https://www.alexander-pick.com

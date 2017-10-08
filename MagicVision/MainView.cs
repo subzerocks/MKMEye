@@ -271,7 +271,7 @@ namespace MKMEye
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
                         if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor)) //fScaleFactor
                             continue;
-                        
+
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
@@ -282,7 +282,7 @@ namespace MKMEye
                         //var transformFilter = new QuadrilateralTransformation(corners, 600, 800);
                         //Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
 
-                        var transformFilter = new QuadrilateralTransformation(corners, 
+                        var transformFilter = new QuadrilateralTransformation(corners,
                         Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
 
                         cardBitmap = transformFilter.Apply(cameraBitmap);
@@ -397,7 +397,7 @@ namespace MKMEye
 
             if (maxSize.Height >= 768)
                 capture.FrameSize = new Size(1024, 768);
-            
+
             fScaleFactor = Convert.ToDouble(capture.FrameSize.Height) / 480;
 
             logBox.AppendText("camera max at " + maxSize.Width + "/" + maxSize.Height + "\n");
@@ -515,13 +515,13 @@ namespace MKMEye
 
                     //Console.WriteLine("DEBUG: Checking " + bestMatches[bestMatch.cardId]);
 
- 
+
                     int maxValue = 0;
                     string bestMatchId = null;
 
                     foreach (var match in bestMatches)
                     {
-                        if(match.Value > maxValue)
+                        if (match.Value > maxValue)
                         {
                             maxValue = match.Value;
                             bestMatchId = match.Key;
@@ -541,7 +541,7 @@ namespace MKMEye
 
                     currentMatch = bestMatch.name;
 
-                    
+
 
                     // highly experimental
 
@@ -627,7 +627,7 @@ namespace MKMEye
             bestMatches = new Dictionary<string, int>();
 
             initalMKMGet = true;
-            
+
         }
 
         private void loadProductAtIndex()
@@ -728,7 +728,7 @@ namespace MKMEye
             loadProductAtIndex();
         }
 
-       
+
 
         private void addToListButton_Click(object sender, EventArgs e)
         {
@@ -755,18 +755,15 @@ namespace MKMEye
 
             foreach (DataGridViewRow row in scanDataView.Rows)
             {
-                if(row.Cells[1].Value != "")
-                {
-                    var cells = row.Cells.Cast<DataGridViewCell>();
-                    sb.AppendLine(string.Join(";", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
-                }
-                
 
+                var cells = row.Cells.Cast<DataGridViewCell>();
+                sb.AppendLine(string.Join(";", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+                
             }
 
             string sFilename = @".\\export_" + GetTimestamp(DateTime.Now) + ".csv";
 
-            File.WriteAllText(sFilename,sb.ToString());
+            File.WriteAllText(sFilename, sb.ToString());
 
             MessageBox.Show("Exported to " + sFilename);
         }
