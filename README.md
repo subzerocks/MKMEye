@@ -23,9 +23,11 @@ This software allows you to identify cards by image recognition, match them to t
 11.04.17
 - inital release
 
-#### Quick Start downloads
+#### Quick Start & Downloads
 
 Here are some working binaries and the needed assets for your enjoyment. These are not updated with every push so this version might be a bit outdated towards the real source version:
+
+Latest Binary Version:
 
 - [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_07102017.rar)
 
@@ -33,10 +35,10 @@ The download includes a refrence DB from the day one of MTG to the end of 2016.
 
 #### The GUI has 5 Hokeys
 
-Q - check the cam identified card against the mkm database, the mkm match will be shown in the top right corner
-W - If the identified card is not yours or a reprint of the target, use this key to iterate through the possible matches
-S - Put the card on MKM for sale, the card will be listed on MKM directly
-L - add to List
+- (q) check the cam identified card against the mkm database, the mkm match will be shown in the top right corner
+- (w) If the identified card is not yours or a reprint of the target, use this key to iterate through the possible matches
+- (s) Put the card on MKM for sale, the card will be listed on MKM directly
+- (l) add to List
 
 I am using MKMEye regulary at the moment and it works very well for me. I hope you enjoy this software as much as I do.
 
@@ -56,14 +58,6 @@ At the moment my personal goal is to sell that much Bulk that way so that I can 
 
 3.) Start scanning and selling
 
-### Some Notes
-
-- I tried to only match the art and the full card image. From various tests I decided to go with matching the full card, it works pretty well.
-- If you need a tool to crop art from images anyways, i.e. the widly known xlhq images, it is included in this repo too. For the process is has not much use anymore.
-- Tool adds articles with MKM AVG prices, if you are luck, this works very well with the price update of my MKMTool project which could be found here: https://github.com/alexander-pick/MKMTool
-- Creating the DB might take an hour or two. Don't be afraid if the tool is not responding, I didn't pay much attention to make it fancy task supported, but it will work.
-- Watch what you add to MKM, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
-
 ### Support & Donations
 
 The development of this tool cost me a lot of time recently but it was worth it to see it done now. If you like this tool or you are a LGS/Powerseller which wants to use it everyday, please consider a donation.
@@ -82,6 +76,14 @@ Based on Magic Vision Created by Peter Simard - Copyright 2010
 MKMEye is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. MKMEye is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with MKMEye.  If not, see <http://www.gnu.org/licenses/>.
 
 **If you are producing a commercial product and need some help with the MKM API or you want to integrate some of my code in your application, feel free to contact me.**
+
+### Some Notes
+
+- I tried to only match the art and the full card image. From various tests I decided to go with matching the full card, it works pretty well.
+- If you need a tool to crop art from images anyways, i.e. the widly known xlhq images, it is included in this repo too. For the process is has not much use anymore.
+- Tool adds articles with MKM AVG prices, if you are luck, this works very well with the price update of my MKMTool project which could be found here: https://github.com/alexander-pick/MKMTool
+- Creating the DB might take an hour or two. Don't be afraid if the tool is not responding, I didn't pay much attention to make it fancy task supported, but it will work.
+- Watch what you add to MKM, don't blame me if you add something twice or somethign wrong - this tool does not replace a brain.
 
 ### And some important links (technology used etc.)
 
