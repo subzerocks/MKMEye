@@ -36,11 +36,7 @@
             this.camWindow = new System.Windows.Forms.PictureBox();
             this.logBox = new System.Windows.Forms.TextBox();
             this.addMKMButton = new System.Windows.Forms.Button();
-            this.conditionCombo = new System.Windows.Forms.ComboBox();
-            this.langCombo = new System.Windows.Forms.ComboBox();
             this.checkMKMButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.detectedCard = new System.Windows.Forms.PictureBox();
             this.pidLabel = new System.Windows.Forms.Label();
@@ -50,42 +46,49 @@
             this.blobHigh = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.blobWidth = new System.Windows.Forms.TextBox();
-            this.priceBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.targetPic = new System.Windows.Forms.PictureBox();
             this.addToListButton = new System.Windows.Forms.Button();
             this.scanDataView = new System.Windows.Forms.DataGridView();
             this.nextButton = new System.Windows.Forms.Button();
-            this.gp1 = new System.Windows.Forms.GroupBox();
             this.deleteFromListButton = new System.Windows.Forms.Button();
             this.exportCSVButton = new System.Windows.Forms.Button();
             this.exportToMKMButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.conditionCombo = new System.Windows.Forms.ComboBox();
+            this.langCombo = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.priceBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.image_output)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camWindow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detectedCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.targetPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scanDataView)).BeginInit();
-            this.gp1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label1.Location = new System.Drawing.Point(5, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(125, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "Original Image";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(556, 9);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label2.Location = new System.Drawing.Point(552, 2);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(87, 20);
             this.label2.TabIndex = 5;
             this.label2.Text = "Detection";
             // 
@@ -119,6 +122,8 @@
             // 
             // logBox
             // 
+            this.logBox.BackColor = System.Drawing.Color.LightBlue;
+            this.logBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.logBox.Location = new System.Drawing.Point(155, 404);
             this.logBox.Margin = new System.Windows.Forms.Padding(2);
             this.logBox.Multiline = true;
@@ -130,6 +135,8 @@
             // addMKMButton
             // 
             this.addMKMButton.BackColor = System.Drawing.Color.GreenYellow;
+            this.addMKMButton.FlatAppearance.BorderSize = 0;
+            this.addMKMButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addMKMButton.Location = new System.Drawing.Point(216, 512);
             this.addMKMButton.Margin = new System.Windows.Forms.Padding(2);
             this.addMKMButton.Name = "addMKMButton";
@@ -139,35 +146,11 @@
             this.addMKMButton.UseVisualStyleBackColor = false;
             this.addMKMButton.Click += new System.EventHandler(this.addMKMButton_Click);
             // 
-            // conditionCombo
-            // 
-            this.conditionCombo.FormattingEnabled = true;
-            this.conditionCombo.Items.AddRange(new object[] {
-            "MT",
-            "NM",
-            "EX",
-            "GD",
-            "LP",
-            "PL",
-            "PO"});
-            this.conditionCombo.Location = new System.Drawing.Point(64, 63);
-            this.conditionCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.conditionCombo.Name = "conditionCombo";
-            this.conditionCombo.Size = new System.Drawing.Size(115, 21);
-            this.conditionCombo.TabIndex = 19;
-            // 
-            // langCombo
-            // 
-            this.langCombo.FormattingEnabled = true;
-            this.langCombo.Location = new System.Drawing.Point(64, 38);
-            this.langCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.langCombo.Name = "langCombo";
-            this.langCombo.Size = new System.Drawing.Size(115, 21);
-            this.langCombo.TabIndex = 20;
-            // 
             // checkMKMButton
             // 
             this.checkMKMButton.BackColor = System.Drawing.Color.Gold;
+            this.checkMKMButton.FlatAppearance.BorderSize = 0;
+            this.checkMKMButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkMKMButton.Location = new System.Drawing.Point(8, 512);
             this.checkMKMButton.Margin = new System.Windows.Forms.Padding(2);
             this.checkMKMButton.Name = "checkMKMButton";
@@ -177,27 +160,10 @@
             this.checkMKMButton.UseVisualStyleBackColor = false;
             this.checkMKMButton.Click += new System.EventHandler(this.checkMKMButton_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 66);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Condition";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 41);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Language";
-            // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
+            this.nameLabel.ForeColor = System.Drawing.Color.MidnightBlue;
             this.nameLabel.Location = new System.Drawing.Point(556, 311);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(103, 13);
@@ -217,6 +183,7 @@
             // pidLabel
             // 
             this.pidLabel.AutoSize = true;
+            this.pidLabel.ForeColor = System.Drawing.Color.MidnightBlue;
             this.pidLabel.Location = new System.Drawing.Point(556, 332);
             this.pidLabel.Name = "pidLabel";
             this.pidLabel.Size = new System.Drawing.Size(93, 13);
@@ -226,6 +193,7 @@
             // editionLabel
             // 
             this.editionLabel.AutoSize = true;
+            this.editionLabel.ForeColor = System.Drawing.Color.MidnightBlue;
             this.editionLabel.Location = new System.Drawing.Point(556, 355);
             this.editionLabel.Name = "editionLabel";
             this.editionLabel.Size = new System.Drawing.Size(39, 13);
@@ -243,6 +211,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label5.Location = new System.Drawing.Point(435, 524);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(103, 13);
@@ -260,6 +229,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label6.Location = new System.Drawing.Point(435, 568);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 13);
@@ -273,23 +243,6 @@
             this.blobWidth.Size = new System.Drawing.Size(39, 20);
             this.blobWidth.TabIndex = 36;
             this.blobWidth.Text = "125";
-            // 
-            // priceBox
-            // 
-            this.priceBox.Location = new System.Drawing.Point(64, 13);
-            this.priceBox.Name = "priceBox";
-            this.priceBox.Size = new System.Drawing.Size(115, 20);
-            this.priceBox.TabIndex = 37;
-            this.priceBox.Text = "1982";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 13);
-            this.label7.TabIndex = 38;
-            this.label7.Text = "Price";
             // 
             // targetPic
             // 
@@ -306,6 +259,8 @@
             // addToListButton
             // 
             this.addToListButton.BackColor = System.Drawing.Color.Aquamarine;
+            this.addToListButton.FlatAppearance.BorderSize = 0;
+            this.addToListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addToListButton.Location = new System.Drawing.Point(320, 512);
             this.addToListButton.Margin = new System.Windows.Forms.Padding(2);
             this.addToListButton.Name = "addToListButton";
@@ -317,6 +272,7 @@
             // 
             // scanDataView
             // 
+            this.scanDataView.BackgroundColor = System.Drawing.Color.LightBlue;
             this.scanDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.scanDataView.Location = new System.Drawing.Point(750, 25);
             this.scanDataView.Name = "scanDataView";
@@ -326,6 +282,8 @@
             // nextButton
             // 
             this.nextButton.BackColor = System.Drawing.Color.LightCoral;
+            this.nextButton.FlatAppearance.BorderSize = 0;
+            this.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.nextButton.Location = new System.Drawing.Point(112, 512);
             this.nextButton.Margin = new System.Windows.Forms.Padding(2);
             this.nextButton.Name = "nextButton";
@@ -335,43 +293,38 @@
             this.nextButton.UseVisualStyleBackColor = false;
             this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
             // 
-            // gp1
-            // 
-            this.gp1.Controls.Add(this.label7);
-            this.gp1.Controls.Add(this.priceBox);
-            this.gp1.Controls.Add(this.label4);
-            this.gp1.Controls.Add(this.langCombo);
-            this.gp1.Controls.Add(this.conditionCombo);
-            this.gp1.Controls.Add(this.label3);
-            this.gp1.Location = new System.Drawing.Point(559, 509);
-            this.gp1.Name = "gp1";
-            this.gp1.Size = new System.Drawing.Size(185, 102);
-            this.gp1.TabIndex = 42;
-            this.gp1.TabStop = false;
-            // 
             // deleteFromListButton
             // 
+            this.deleteFromListButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteFromListButton.FlatAppearance.BorderSize = 0;
+            this.deleteFromListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteFromListButton.Location = new System.Drawing.Point(750, 512);
             this.deleteFromListButton.Name = "deleteFromListButton";
             this.deleteFromListButton.Size = new System.Drawing.Size(112, 100);
             this.deleteFromListButton.TabIndex = 43;
             this.deleteFromListButton.Text = "Delete Entry";
-            this.deleteFromListButton.UseVisualStyleBackColor = true;
+            this.deleteFromListButton.UseVisualStyleBackColor = false;
             this.deleteFromListButton.Click += new System.EventHandler(this.deleteFromListButton_Click);
             // 
             // exportCSVButton
             // 
+            this.exportCSVButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.exportCSVButton.FlatAppearance.BorderSize = 0;
+            this.exportCSVButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exportCSVButton.Location = new System.Drawing.Point(868, 512);
             this.exportCSVButton.Name = "exportCSVButton";
             this.exportCSVButton.Size = new System.Drawing.Size(105, 99);
             this.exportCSVButton.TabIndex = 44;
             this.exportCSVButton.Text = "Export CSV";
-            this.exportCSVButton.UseVisualStyleBackColor = true;
+            this.exportCSVButton.UseVisualStyleBackColor = false;
             this.exportCSVButton.Click += new System.EventHandler(this.exportCSVButton_Click);
             // 
             // exportToMKMButton
             // 
-            this.exportToMKMButton.BackColor = System.Drawing.SystemColors.Highlight;
+            this.exportToMKMButton.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.exportToMKMButton.FlatAppearance.BorderSize = 0;
+            this.exportToMKMButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportToMKMButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.exportToMKMButton.Location = new System.Drawing.Point(1110, 512);
             this.exportToMKMButton.Name = "exportToMKMButton";
             this.exportToMKMButton.Size = new System.Drawing.Size(105, 100);
@@ -382,31 +335,107 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(747, 9);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label8.Location = new System.Drawing.Point(746, 2);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 13);
+            this.label8.Size = new System.Drawing.Size(107, 20);
             this.label8.TabIndex = 46;
             this.label8.Text = "Storage List";
             // 
-            // groupBox1
+            // label3
             // 
-            this.groupBox1.Location = new System.Drawing.Point(425, 509);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(125, 102);
-            this.groupBox1.TabIndex = 47;
-            this.groupBox1.TabStop = false;
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label3.Location = new System.Drawing.Point(556, 436);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Condition";
+            // 
+            // conditionCombo
+            // 
+            this.conditionCombo.FormattingEnabled = true;
+            this.conditionCombo.Items.AddRange(new object[] {
+            "MT",
+            "NM",
+            "EX",
+            "GD",
+            "LP",
+            "PL",
+            "PO"});
+            this.conditionCombo.Location = new System.Drawing.Point(614, 433);
+            this.conditionCombo.Margin = new System.Windows.Forms.Padding(2);
+            this.conditionCombo.Name = "conditionCombo";
+            this.conditionCombo.Size = new System.Drawing.Size(130, 21);
+            this.conditionCombo.TabIndex = 19;
+            // 
+            // langCombo
+            // 
+            this.langCombo.FormattingEnabled = true;
+            this.langCombo.Location = new System.Drawing.Point(614, 408);
+            this.langCombo.Margin = new System.Windows.Forms.Padding(2);
+            this.langCombo.Name = "langCombo";
+            this.langCombo.Size = new System.Drawing.Size(130, 21);
+            this.langCombo.TabIndex = 20;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label4.Location = new System.Drawing.Point(556, 411);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Language";
+            // 
+            // priceBox
+            // 
+            this.priceBox.Location = new System.Drawing.Point(614, 383);
+            this.priceBox.Name = "priceBox";
+            this.priceBox.Size = new System.Drawing.Size(130, 20);
+            this.priceBox.TabIndex = 37;
+            this.priceBox.Text = "1982";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label7.Location = new System.Drawing.Point(556, 386);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 13);
+            this.label7.TabIndex = 38;
+            this.label7.Text = "Price";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(559, 459);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(185, 153);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 47;
+            this.pictureBox1.TabStop = false;
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(1225, 623);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.priceBox);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.exportToMKMButton);
+            this.Controls.Add(this.langCombo);
+            this.Controls.Add(this.conditionCombo);
             this.Controls.Add(this.exportCSVButton);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.deleteFromListButton);
             this.Controls.Add(this.image_output);
-            this.Controls.Add(this.gp1);
             this.Controls.Add(this.scanDataView);
             this.Controls.Add(this.addToListButton);
             this.Controls.Add(this.targetPic);
@@ -427,7 +456,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.camWindow);
             this.Controls.Add(this.cam);
-            this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainView";
             this.Text = "MKMEye 0.2b";
@@ -438,8 +466,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.detectedCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.targetPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scanDataView)).EndInit();
-            this.gp1.ResumeLayout(false);
-            this.gp1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -453,11 +480,7 @@
         private System.Windows.Forms.PictureBox camWindow;
         private System.Windows.Forms.TextBox logBox;
         private System.Windows.Forms.Button addMKMButton;
-        private System.Windows.Forms.ComboBox conditionCombo;
-        private System.Windows.Forms.ComboBox langCombo;
         private System.Windows.Forms.Button checkMKMButton;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.PictureBox detectedCard;
         private System.Windows.Forms.Label pidLabel;
@@ -467,17 +490,20 @@
         private System.Windows.Forms.TextBox blobHigh;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox blobWidth;
-        private System.Windows.Forms.TextBox priceBox;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox targetPic;
         private System.Windows.Forms.Button addToListButton;
         private System.Windows.Forms.DataGridView scanDataView;
         private System.Windows.Forms.Button nextButton;
-        private System.Windows.Forms.GroupBox gp1;
         private System.Windows.Forms.Button deleteFromListButton;
         private System.Windows.Forms.Button exportCSVButton;
         private System.Windows.Forms.Button exportToMKMButton;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox conditionCombo;
+        private System.Windows.Forms.ComboBox langCombo;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox priceBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

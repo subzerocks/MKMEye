@@ -53,7 +53,6 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
 using DirectX.Capture;
-using Tesseract;
 using ImageFormat = System.Drawing.Imaging.ImageFormat;
 using Point = System.Drawing.Point;
 
@@ -103,16 +102,16 @@ namespace MKMEye
             scanDataView.Columns[1].HeaderText = "Edition";
 
             scanDataView.Columns[2].HeaderText = "Price";
-            scanDataView.Columns[2].Width = 60;
+            scanDataView.Columns[2].Width = 50;
 
             scanDataView.Columns[3].HeaderText = "Language";
-            scanDataView.Columns[3].Width = 60;
+            scanDataView.Columns[3].Width = 55;
 
             scanDataView.Columns[4].HeaderText = "Condition";
-            scanDataView.Columns[4].Width = 60;
+            scanDataView.Columns[4].Width = 55;
 
             scanDataView.Columns[5].HeaderText = "MKM ID";
-            scanDataView.Columns[5].Width = 60;
+            scanDataView.Columns[5].Width = 50;
 
             if (!File.Exists(@".\\config.xml"))
             {
