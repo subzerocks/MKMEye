@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SQLite;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -6,13 +7,14 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
+using MKMEye;
 using Newtonsoft.Json.Linq;
 
 namespace ImageDBBuilder
 {
     public partial class MainView : Form
     {
-        public MySqlClient sql;
+        private SQLiteClient sql;
 
         public MainView()
         {
@@ -20,19 +22,7 @@ namespace ImageDBBuilder
 
             try
             {
-                var xConfigFile = new XmlDocument();
-
-                xConfigFile.Load(@".\\config.xml");
-
-                var SqlConString = "server=" + xConfigFile.SelectSingleNode("/config/mysql/host").InnerText + ";" +
-                                   "port=" + xConfigFile.SelectSingleNode("/config/mysql/port").InnerText + ";" +
-                                   "database=" + xConfigFile.SelectSingleNode("/config/mysql/database").InnerText +
-                                   ";" +
-                                   "uid=" + xConfigFile.SelectSingleNode("/config/mysql/username").InnerText + ";" +
-                                   "pwd=" + xConfigFile.SelectSingleNode("/config/mysql/password").InnerText + ";" +
-                                   "Allow Zero Datetime=true;";
-
-                sql = new MySqlClient(SqlConString);
+               sql = new SQLiteClient("Data Source=cards.sqlite;Version=3;");
             }
             catch (Exception e)
             {
@@ -132,17 +122,13 @@ namespace ImageDBBuilder
 
         private void purgeDB()
         {
-            sql.dbNone("DELETE FROM cards WHERE 1");
+            sql.dbNone("DELETE FROM cards");
         }
 
         private void buildButton_Click(object sender, EventArgs e)
         {
             purgeDB();
             downloadJson();
-        }
-
-        private void browseButton_Click(object sender, EventArgs e)
-        {
         }
 
         public class Phash

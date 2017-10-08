@@ -1,0 +1,5 @@
+Get more files here:
+
+https://github.com/tesseract-ocr/tessdata/releases/tag/3.04.00
+
+You need the 3.04 files, since we use CharlesW's amazing Tesseract NuGet Package.

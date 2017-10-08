@@ -4,7 +4,9 @@ MKMEYE
 
 #### Whats is this?
 
-Sell on MKM/MagicKartenMarkt (or MCM for international folks -> https://www.magiccardmarket.com) by scanning your cards with image recognition.
+![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen.png)
+
+Sell on MKM / MagicKartenMarkt (or MCM / MagicCardMarket for international folks -> https://www.magiccardmarket.com) by scanning your cards with image recognition.
 
 This software allows you to identify cards by image recognition, match them to the MKM stock and directly sell them on the marketplace, making adding bulk cards to MKM as easy as possible.
 
@@ -12,11 +14,16 @@ This software allows you to identify cards by image recognition, match them to t
 
 #### Changelog
 
+08.10.2017
+- finally added the list feature, csv export + collected upload
+- further improved detection
+- started to integrate experimental ocr to determain the correct language
+
 07.10.2017
-0.2b - improved detection, switched from mysql to sqlite
+- improved detection, switched from mysql to sqlite
 
 11.04.17
-0.1b - inital release
+- inital release
 
 #### Quick Start downloads
 
@@ -26,11 +33,12 @@ Here are some working binaries and the needed assets for your enjoyment. These a
 
 The download includes a refrence DB from the day one of MTG to the end of 2016.
 
-#### The GUI has 3 Hokeys
+#### The GUI has 5 Hokeys
 
 Q - check the cam identified card against the mkm database, the mkm match will be shown in the top right corner
 W - If the identified card is not yours or a reprint of the target, use this key to iterate through the possible matches
 S - Put the card on MKM for sale, the card will be listed on MKM directly
+L - add to List
 
 I am using MKMEye regulary at the moment and it works very well for me. I hope you enjoy this software as much as I do.
 

@@ -44,6 +44,8 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using AForge;
@@ -51,6 +53,8 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
 using DirectX.Capture;
+using Tesseract;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
 using Point = System.Drawing.Point;
 
 namespace MKMEye
@@ -91,6 +95,25 @@ namespace MKMEye
 
             KeyPreview = true;
 
+            scanDataView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.Fill);
+
+            scanDataView.ColumnCount = 6;
+
+            scanDataView.Columns[0].HeaderText = "Name";
+            scanDataView.Columns[1].HeaderText = "Edition";
+
+            scanDataView.Columns[2].HeaderText = "Price";
+            scanDataView.Columns[2].Width = 60;
+
+            scanDataView.Columns[3].HeaderText = "Language";
+            scanDataView.Columns[3].Width = 60;
+
+            scanDataView.Columns[4].HeaderText = "Condition";
+            scanDataView.Columns[4].Width = 60;
+
+            scanDataView.Columns[5].HeaderText = "MKM ID";
+            scanDataView.Columns[5].Width = 60;
+
             if (!File.Exists(@".\\config.xml"))
             {
                 MessageBox.Show("Config File missing! Please read the manual.");
@@ -129,13 +152,13 @@ namespace MKMEye
             }
 
             timer1 = new Timer();
-            timer1.Tick += new EventHandler(garbageFire);
+            timer1.Tick += new EventHandler(GarbageFire);
             timer1.Interval = 3000; // in miliseconds
             timer1.Start();
         }
 
         //flushs the detection cache - yes the name is from a card in conspiracy ;)
-        private void garbageFire(object sender, EventArgs e)
+        private void GarbageFire(object sender, EventArgs e)
         {
             bestMatches = new Dictionary<string, int>();
         }
@@ -178,7 +201,7 @@ namespace MKMEye
             edgeFilter.ApplyInPlace(filteredBitmap);
 
             // Threshhold filter
-            var threshholdFilter = new Threshold(180);
+            var threshholdFilter = new Threshold(240); //180
             threshholdFilter.ApplyInPlace(filteredBitmap);
 
             var bitmapData = filteredBitmap.LockBits(
@@ -191,8 +214,12 @@ namespace MKMEye
 
             //possible finetuning
 
-            blobCounter.MinHeight = Convert.ToInt32(int.Parse(blobHigh.Text) * fScaleFactor);
-            blobCounter.MinWidth = Convert.ToInt32(int.Parse(blobWidth.Text) * fScaleFactor);
+            blobCounter.MinHeight = Convert.ToInt32(int.Parse(blobHigh.Text) * fScaleFactor); //fScaleFactor
+            blobCounter.MinWidth = Convert.ToInt32(int.Parse(blobWidth.Text) * fScaleFactor); //fScaleFactor
+
+#if DEBUG
+            Console.WriteLine("Calculate min blobsize " + blobCounter.MinWidth + "/" + blobCounter.MinHeight);
+#endif
 
             blobCounter.ProcessImage(bitmapData);
             var blobs = blobCounter.GetObjectsInformation();
@@ -231,24 +258,33 @@ namespace MKMEye
 
                         // Prevent it from detecting the same card twice
                         foreach (var point in cardPositions)
-                            if (corners[0].DistanceTo(point) < Convert.ToInt32(40 * fScaleFactor))
+                            if (corners[0].DistanceTo(point) < Convert.ToInt32(40 * fScaleFactor)) //fScaleFactor
                                 sameCard = true;
 
                         if (sameCard)
                             continue;
 
+                        /*
+                         *  This code seems to have an issue if scaled up with the factor:
+                         */
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                        if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor))
+                        if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor)) //fScaleFactor
                             continue;
-
+                        
                         cardPositions.Add(corners[0]);
 
                         g.DrawPolygon(pen, ToPointsArray(corners));
 
                         // Extract the card bitmap
-                        var transformFilter = new QuadrilateralTransformation(corners,
-                            Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
+
+                        // Debug
+                        //var transformFilter = new QuadrilateralTransformation(corners, 600, 800);
+                        //Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
+
+                        var transformFilter = new QuadrilateralTransformation(corners, 
+                        Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
+
                         cardBitmap = transformFilter.Apply(cameraBitmap);
 
                         //extract Art
@@ -349,14 +385,23 @@ namespace MKMEye
 
             var maxSize = capture.VideoCaps.MaxFrameSize;
 
+            capture.FrameSize = new Size(640, 480);
+
             if (maxSize.Height > 480)
                 capture.FrameSize = new Size(800, 600);
-            else
-                capture.FrameSize = new Size(640, 480);
 
-            fScaleFactor = 1; //Convert.ToDouble(maxSize.Height) / 480;
+            //fails my cam :(
+            /*if (maxSize.Height >= 720)
+                capture.FrameSize = new Size(960, 720);
+            */
 
-            logBox.AppendText("camera at " + maxSize.Width + "/" + maxSize.Height + " (Factor " + fScaleFactor + ")\n");
+            if (maxSize.Height >= 768)
+                capture.FrameSize = new Size(1024, 768);
+            
+            fScaleFactor = Convert.ToDouble(capture.FrameSize.Height) / 480;
+
+            logBox.AppendText("camera max at " + maxSize.Width + "/" + maxSize.Height + "\n");
+            logBox.AppendText("running at " + capture.FrameSize.Width + "/" + capture.FrameSize.Height + " (Factor " + fScaleFactor + ")\n");
 
             //capture.FrameSize = maxSize;
             capture.PreviewWindow = cam;
@@ -439,8 +484,17 @@ namespace MKMEye
                 }
 
 
+
+
                 if ((bestMatch != null))
                 {
+                    var g = Graphics.FromImage(cameraBitmap);
+                    g.DrawString(currentMatch, new Font("Tahoma", 25), Brushes.Black,
+                        new PointF(card.corners[0].X - 29, card.corners[0].Y - 39));
+                    g.DrawString(currentMatch, new Font("Tahoma", 25), Brushes.Red,
+                        new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
+                    g.Dispose();
+
 
 #if DEBUG
                     Console.WriteLine("DEBUG: Highest Similarity: " + bestMatch.name + " ID: " + bestMatch.cardId);
@@ -487,13 +541,22 @@ namespace MKMEye
 
                     currentMatch = bestMatch.name;
 
-                    var g = Graphics.FromImage(cameraBitmap);
-                    g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Black,
-                        new PointF(card.corners[0].X - 29, card.corners[0].Y - 39));
-                    g.DrawString(bestMatch.name, new Font("Tahoma", 25), Brushes.Red,
-                        new PointF(card.corners[0].X - 30, card.corners[0].Y - 40));
-                    g.Dispose();
+                    
 
+                    // highly experimental
+
+#if NULL
+                    const string tessDataDir = @".\\tessdata";
+
+                    using (var engine = new TesseractEngine(tessDataDir, "eng", EngineMode.Default))
+                    using (var image = Pix.LoadFromFile(".\\tempCard" + cardTempId + ".jpg"))
+                    using (var page = engine.Process(image))
+                    {
+                        string text = page.GetText();
+                        Console.WriteLine("DEBUG: Mean confidence: {0}", page.GetMeanConfidence());
+                        Console.WriteLine("DEBUG: "+ text);
+                    }
+#endif
                 }
             }
         }
@@ -510,6 +573,18 @@ namespace MKMEye
             return array;
         }
 
+        private void addToList()
+        {
+            if (initalMKMGet == false)
+            {
+                CheckMKM();
+                bestMatches = new Dictionary<string, int>();
+            }
+
+            string[] row = new string[] { nameLabel.Text, editionLabel.Text, priceBox.Text, langCombo.Text, conditionCombo.Text, pidLabel.Text };
+            scanDataView.Rows.Add(row);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             Console.WriteLine(keyData.ToString());
@@ -517,6 +592,13 @@ namespace MKMEye
             if (keyData == Keys.Q)
             {
                 CheckMKM();
+                keystroke = false;
+                return true;
+            }
+
+            if (keyData == Keys.L)
+            {
+                addToList();
                 keystroke = false;
                 return true;
             }
@@ -537,11 +619,15 @@ namespace MKMEye
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private bool initalMKMGet = false;
+
         private void checkMKMButton_Click(object sender, EventArgs e)
         {
-
-            bestMatches = new Dictionary<string, int>();
             CheckMKM();
+            bestMatches = new Dictionary<string, int>();
+
+            initalMKMGet = true;
+            
         }
 
         private void loadProductAtIndex()
@@ -640,6 +726,49 @@ namespace MKMEye
         private void nextButton_Click(object sender, EventArgs e)
         {
             loadProductAtIndex();
+        }
+
+       
+
+        private void addToListButton_Click(object sender, EventArgs e)
+        {
+            addToList();
+        }
+
+        private void deleteFromListButton_Click(object sender, EventArgs e)
+        {
+            int row = scanDataView.CurrentCell.RowIndex;
+            scanDataView.Rows.RemoveAt(row);
+        }
+
+        public static String GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
+
+        private void exportCSVButton_Click(object sender, EventArgs e)
+        {
+            var sb = new StringBuilder();
+
+            var headers = scanDataView.Columns.Cast<DataGridViewColumn>();
+            sb.AppendLine(string.Join(";", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+
+            foreach (DataGridViewRow row in scanDataView.Rows)
+            {
+                if(row.Cells[1].Value != "")
+                {
+                    var cells = row.Cells.Cast<DataGridViewCell>();
+                    sb.AppendLine(string.Join(";", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+                }
+                
+
+            }
+
+            string sFilename = @".\\export_" + GetTimestamp(DateTime.Now) + ".csv";
+
+            File.WriteAllText(sFilename,sb.ToString());
+
+            MessageBox.Show("Exported to " + sFilename);
         }
     }
 }
