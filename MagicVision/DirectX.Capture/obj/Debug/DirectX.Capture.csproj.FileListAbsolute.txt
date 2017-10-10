@@ -40,3 +40,11 @@ C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DirectX.Capture\bin\Debug\DShowNE
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.csprojResolveAssemblyReference.cache
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.dll
 C:\Users\alexa\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.pdb
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\bin\Debug\DirectX.Capture.dll
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\bin\Debug\DirectX.Capture.pdb
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\bin\Debug\DShowNET.dll
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\bin\Debug\DShowNET.pdb
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.csprojResolveAssemblyReference.cache
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.csproj.CoreCompileInputs.cache
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.dll
+C:\Users\alx\Source\Repos\MKMEye\MagicVision\DirectX.Capture\obj\Debug\DirectX.Capture.pdb

@@ -99,19 +99,56 @@ namespace MKMEye
             scanDataView.ColumnCount = 6;
 
             scanDataView.Columns[0].HeaderText = "Name";
+            scanDataView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+
             scanDataView.Columns[1].HeaderText = "Edition";
+            scanDataView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             scanDataView.Columns[2].HeaderText = "Price";
-            scanDataView.Columns[2].Width = 50;
+            scanDataView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             scanDataView.Columns[3].HeaderText = "Language";
-            scanDataView.Columns[3].Width = 55;
+            scanDataView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             scanDataView.Columns[4].HeaderText = "Condition";
-            scanDataView.Columns[4].Width = 55;
+            scanDataView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             scanDataView.Columns[5].HeaderText = "MKM ID";
-            scanDataView.Columns[5].Width = 50;
+            scanDataView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            scanDataView.Columns[5].ReadOnly = true;
+
+            DataGridViewCheckBoxColumn foilColumn = new DataGridViewCheckBoxColumn();
+
+            foilColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            foilColumn.CellTemplate = new DataGridViewCheckBoxCell();
+            foilColumn.TrueValue = true;
+            foilColumn.FalseValue = false;
+            foilColumn.HeaderText = "Foil";
+            foilColumn.Name = "Foil";
+
+            scanDataView.Columns.Add(foilColumn);
+
+            DataGridViewCheckBoxColumn signedColumn = new DataGridViewCheckBoxColumn();
+
+            signedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            signedColumn.CellTemplate = new DataGridViewCheckBoxCell();
+            signedColumn.TrueValue = true;
+            signedColumn.FalseValue = false;
+            signedColumn.HeaderText = "Signed";
+            signedColumn.Name = "Signed";
+
+            scanDataView.Columns.Add(signedColumn);
+
+            DataGridViewCheckBoxColumn playsetColumn = new DataGridViewCheckBoxColumn();
+
+            playsetColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            playsetColumn.CellTemplate = new DataGridViewCheckBoxCell();
+            playsetColumn.TrueValue = true;
+            playsetColumn.FalseValue = false;
+            playsetColumn.HeaderText = "Playset";
+            playsetColumn.Name = "Playset";
+
+            scanDataView.Columns.Add(playsetColumn);
 
             if (!File.Exists(@".\\config.xml"))
             {
@@ -279,28 +316,11 @@ namespace MKMEye
 
                         // Debug
                         //var transformFilter = new QuadrilateralTransformation(corners, 600, 800);
-                        //Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
 
                         var transformFilter = new QuadrilateralTransformation(corners,
                         Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
 
                         cardBitmap = transformFilter.Apply(cameraBitmap);
-
-                        //extract Art
-                        /* var artCorners = new List<IntPoint>();
-                         artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
-                             Convert.ToInt32(35 * fScaleFactor)));
-                         artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
-                             Convert.ToInt32(35 * fScaleFactor)));
-                         artCorners.Add(new IntPoint(Convert.ToInt32(193 * fScaleFactor),
-                             Convert.ToInt32(168 * fScaleFactor)));
-                         artCorners.Add(new IntPoint(Convert.ToInt32(14 * fScaleFactor),
-                             Convert.ToInt32(168 * fScaleFactor)));
-
-                         // Extract the art bitmap
-                         var cartArtFilter = new QuadrilateralTransformation(artCorners,
-                             Convert.ToInt32(183 * fScaleFactor), Convert.ToInt32(133 * fScaleFactor));
-                         cardArtBitmap = cartArtFilter.Apply(cardBitmap);*/
 
                         var card = new MagicCard();
                         card.corners = corners;
@@ -374,9 +394,9 @@ namespace MKMEye
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            targetPic.Parent = camWindow;
+            /*targetPic.Parent = camWindow;
             targetPic.BackColor = Color.Transparent;
-            targetPic.Location = new Point(0, 30);
+            targetPic.Location = new Point(0, 30);*/
 
             cameraBitmap = new Bitmap(800, 600);
             capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
@@ -580,8 +600,9 @@ namespace MKMEye
                 bestMatches = new Dictionary<string, int>();
             }
 
-            string[] row = new string[] { nameLabel.Text, editionLabel.Text, priceBox.Text, langCombo.Text, conditionCombo.Text, pidLabel.Text };
-            scanDataView.Rows.Add(row);
+            scanDataView.Rows.Add(nameLabel.Text, editionLabel.Text, priceBox.Text, langCombo.Text, conditionCombo.Text, pidLabel.Text);
+
+            logBox.AppendText(nameLabel.Text + " added to list\n");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -732,6 +753,7 @@ namespace MKMEye
         private void addToListButton_Click(object sender, EventArgs e)
         {
             addToList();
+
         }
 
         private void deleteFromListButton_Click(object sender, EventArgs e)
@@ -765,6 +787,52 @@ namespace MKMEye
             File.WriteAllText(sFilename, sb.ToString());
 
             MessageBox.Show("Exported to " + sFilename);
+        }
+
+        private void exportToMKMButton_Click(object sender, EventArgs e)
+        {
+            var xBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                        "<request>";
+
+            /*"<article><idProduct>" + pidLabel.Text + "</idProduct><idLanguage>" +
+                        (langCombo.SelectedItem as MKM.ComboboxItem).Value +
+                        "</idLanguage>" +
+                        "<comments></comments><count>1</count><price>" + priceBox.Text + "</price><condition>" +
+                        conditionCombo.Text +
+                        "</condition>" +
+                        "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article > 
+    */
+
+            foreach (DataGridViewRow row in scanDataView.Rows)
+            {
+                if (row.Cells[5].Value != "")
+                {
+                    xBody += "<article><idProduct>" + row.Cells[5].Value + "</idProduct><idLanguage>" +
+                             row.Cells[3].Value +
+                             "</idLanguage>" +
+                             "<comments></comments><count>1</count><price>" +
+                             row.Cells[2].Value + "</price><condition>" +
+                             row.Cells[4].Value +
+                             "</condition>" +
+                             "<isFoil>" +
+                             Convert.ToString(row.Cells[6].Value) + "</isFoil><isSigned>" +
+                             Convert.ToString(row.Cells[7].Value) + "</isSigned><isPlayset>" +
+                             Convert.ToString(row.Cells[8].Value) + "</isPlayset></article >";
+                }
+
+
+            }
+
+            xBody += "</request>";
+
+            MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
+
+            MessageBox.Show("Article were added to the marketplace!");
+        }
+
+        private void emptyListButton_Click(object sender, EventArgs e)
+        {
+            scanDataView.Rows.Clear();
         }
     }
 }
