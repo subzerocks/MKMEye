@@ -11,7 +11,7 @@ namespace MKMEye
     class SQLiteClient
     {
 
-        private readonly SQLiteConnection sql;
+        public readonly SQLiteConnection sql;
 
         public SQLiteClient(string SqlConString)
         {

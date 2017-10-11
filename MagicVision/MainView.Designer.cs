@@ -58,11 +58,11 @@
             this.camWindow = new System.Windows.Forms.PictureBox();
             this.cam = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.emptyListButton = new System.Windows.Forms.Button();
             this.exportToMKMButton = new System.Windows.Forms.Button();
             this.exportCSVButton = new System.Windows.Forms.Button();
             this.deleteFromListButton = new System.Windows.Forms.Button();
             this.scanDataView = new System.Windows.Forms.DataGridView();
-            this.emptyListButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -261,7 +261,7 @@
             this.treasholdBox.Name = "treasholdBox";
             this.treasholdBox.Size = new System.Drawing.Size(100, 20);
             this.treasholdBox.TabIndex = 92;
-            this.treasholdBox.Text = "100000";
+            this.treasholdBox.Text = "10000";
             // 
             // nextButton
             // 
@@ -412,6 +412,19 @@
             this.tabPage2.Text = "Storage List";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // emptyListButton
+            // 
+            this.emptyListButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.emptyListButton.FlatAppearance.BorderSize = 0;
+            this.emptyListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.emptyListButton.Location = new System.Drawing.Point(235, 538);
+            this.emptyListButton.Name = "emptyListButton";
+            this.emptyListButton.Size = new System.Drawing.Size(105, 99);
+            this.emptyListButton.TabIndex = 51;
+            this.emptyListButton.Text = "Empty List";
+            this.emptyListButton.UseVisualStyleBackColor = false;
+            this.emptyListButton.Click += new System.EventHandler(this.emptyListButton_Click);
+            // 
             // exportToMKMButton
             // 
             this.exportToMKMButton.BackColor = System.Drawing.Color.DeepSkyBlue;
@@ -460,19 +473,6 @@
             this.scanDataView.Name = "scanDataView";
             this.scanDataView.Size = new System.Drawing.Size(757, 527);
             this.scanDataView.TabIndex = 47;
-            // 
-            // emptyListButton
-            // 
-            this.emptyListButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.emptyListButton.FlatAppearance.BorderSize = 0;
-            this.emptyListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.emptyListButton.Location = new System.Drawing.Point(235, 538);
-            this.emptyListButton.Name = "emptyListButton";
-            this.emptyListButton.Size = new System.Drawing.Size(105, 99);
-            this.emptyListButton.TabIndex = 51;
-            this.emptyListButton.Text = "Empty List";
-            this.emptyListButton.UseVisualStyleBackColor = false;
-            this.emptyListButton.Click += new System.EventHandler(this.emptyListButton_Click);
             // 
             // MainView
             // 

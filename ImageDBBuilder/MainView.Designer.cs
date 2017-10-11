@@ -73,7 +73,7 @@
             this.pathBox.Name = "pathBox";
             this.pathBox.Size = new System.Drawing.Size(335, 20);
             this.pathBox.TabIndex = 0;
-            this.pathBox.Text = "E:\\crops\\";
+            this.pathBox.Text = "E:\\";
             // 
             // label1
             // 
