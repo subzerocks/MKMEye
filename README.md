@@ -58,7 +58,7 @@ Here are some working binaries and the needed assets for your enjoyment. These a
 
 Latest Binary Version:
 
-- [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_07102017.rar)
+- [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_13102017.rar)
 
 The download includes a refrence DB from the day one of MTG to the end of 2016.
 
