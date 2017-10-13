@@ -7,7 +7,7 @@ MKMEYE
 ![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_02.png)
 
 
-Sell on MKM / MagicKartenMarkt (or MCM / MagicCardMarket for international folks -> https://www.magiccardmarket.com) by scanning your cards with image recognition.
+Sell your Magic cards on (Magic) Cardmarket (https://www.cardmarket.com) by scanning your cards with image recognition.
 
 This software allows you to identify cards by image recognition, match them to the MKM stock and directly sell them on the marketplace, making adding bulk cards to MKM as easy as possible.
 
@@ -133,3 +133,9 @@ https://mtgjson.com/
 
 My Website
 https://www.alexander-pick.com
+
+### Legal
+
+* Magic is a Trademark of Wizards of the Coast
+* Cardmarket.com ist a brand of Sammelkartenmarkt Limited und Co. KG.
+* I am not allfinated with either of the above parties or speaking in their name.
