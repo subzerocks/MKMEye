@@ -4,7 +4,7 @@ MKMEYE
 
 #### Whats is this?
 
-![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_01.png)
+![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_02.png)
 
 
 Sell on MKM / MagicKartenMarkt (or MCM / MagicCardMarket for international folks -> https://www.magiccardmarket.com) by scanning your cards with image recognition.
