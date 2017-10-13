@@ -21,7 +21,7 @@ I used a cheaper 10 Eur webcam (HD) mounted on an old candelabra during the init
 
 ##### How much is it?
 
-The software is free!
+The software is free to use, the source code is open source and also open for your improvements.
 
 ##### Can you provide you a always up2date database of cards for it?
 
@@ -136,6 +136,6 @@ https://www.alexander-pick.com
 
 ### Legal
 
-* Magic is a Trademark of Wizards of the Coast
+* Magic is a trademark of Wizards of the Coast LLC
 * Cardmarket.com ist a brand of Sammelkartenmarkt Limited und Co. KG.
-* I am not allfinated with either of the above parties or speaking in their name.
+* I am not allfinated with the above parties or speaking in their name.
