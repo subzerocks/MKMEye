@@ -6,11 +6,40 @@ MKMEYE
 
 ![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_01.png)
 
+
 Sell on MKM / MagicKartenMarkt (or MCM / MagicCardMarket for international folks -> https://www.magiccardmarket.com) by scanning your cards with image recognition.
 
 This software allows you to identify cards by image recognition, match them to the MKM stock and directly sell them on the marketplace, making adding bulk cards to MKM as easy as possible.
 
+#### What do I need for this?
+
+This software (free!) and a good webcam like this one here:
+
+[IPEVO Ziggi](https://www.amazon.com/gp/product/B01530XGMA/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B01530XGMA&linkCode=as2&tag=alexanderp-20&linkId=0e80c25c2467c0d816207d1b9b76d77b)
+
+I used a cheaper 10 Eur webcam (HD) mounted on an old candelabra during the initial development, but it focused badly and was nowhere as good as the Ziggi. Ironicly it seems TCG uses the same cam for their TCGPro product.
+
+##### How much is it?
+
+The software is free!
+
+##### Can you provide you a always up2date database of cards for it?
+
+I try my best but the tool to build an up2date database is included, you can build a very nice db using the ccghq xlq images yourself.
+
+#### Video Demo
+
+
+[![Youtube Video](http://img.youtube.com/vi/8HLDuwNNb8c/0.jpg)](https://youtu.be/8HLDuwNNb8c)
+
+
 #### Changelog
+
+13.10.2017
+- many many improvements
+- new list feature
+- new gui
+- new db
 
 08.10.2017
 - finally added the list feature, csv export + collected upload
@@ -33,7 +62,7 @@ Latest Binary Version:
 
 The download includes a refrence DB from the day one of MTG to the end of 2016.
 
-#### The GUI has 5 Hokeys
+#### The GUI has 5 Hotkeys
 
 - (q) check the cam identified card against the mkm database, the mkm match will be shown in the top right corner
 - (w) If the identified card is not yours or a reprint of the target, use this key to iterate through the possible matches
