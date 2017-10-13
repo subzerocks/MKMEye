@@ -7,7 +7,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using MKMEye;
 using Newtonsoft.Json.Linq;
 
@@ -15,12 +14,7 @@ namespace ImageDBBuilder
 {
     public partial class MainView : Form
     {
-        private SQLiteClient sql;
-
-        public static String GetTimestamp(DateTime value)
-        {
-            return value.ToString("yyyyMMddHHmmssffff");
-        }
+        private readonly SQLiteClient sql;
 
         public MainView()
         {
@@ -28,13 +22,14 @@ namespace ImageDBBuilder
 
             try
             {
-                string cardsDBName = "cards_" + GetTimestamp(DateTime.Now) + ".sqlite";
+                var cardsDBName = "cards_" + GetTimestamp(DateTime.Now) + ".sqlite";
 
                 logBox.AppendText(cardsDBName + " created\n");
 
                 sql = new SQLiteClient("Data Source=" + cardsDBName + ";Version=3;");
 
-                string sCreate = "CREATE TABLE cards(id integer NOT NULL, name varchar(255), pHash varchar(255), Edition varchar(8), PRIMARY KEY(id))";
+                var sCreate =
+                    "CREATE TABLE cards(id integer NOT NULL, name varchar(255), pHash varchar(255), Edition varchar(8), PRIMARY KEY(id))";
 
                 sql.dbNone(sCreate);
             }
@@ -44,13 +39,16 @@ namespace ImageDBBuilder
             }
         }
 
+        public static string GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
+
         private void processImages(MainView gui, SQLiteClient csql)
         {
+            var efile = new StreamWriter(@".\\errorlog_" + GetTimestamp(DateTime.Now) + ".txt", true);
 
-            BeginInvoke(new Action(() =>
-            {
-                gui.logBox.AppendText("Downloading JSON Information\n");
-            }));
+            BeginInvoke(new Action(() => { gui.logBox.AppendText("Downloading JSON Information\n"); }));
 
             var zipPath = @".\\alljson.zip";
 
@@ -61,10 +59,7 @@ namespace ImageDBBuilder
 
             var cardsPath = @".\\AllSets.json";
 
-            BeginInvoke(new Action(() =>
-            {
-                gui.logBox.AppendText("Extracting...\n");
-            }));
+            BeginInvoke(new Action(() => { gui.logBox.AppendText("Extracting...\n"); }));
 
             try
             {
@@ -86,10 +81,10 @@ namespace ImageDBBuilder
                     foreach (var jcard in jcards)
                         try
                         {
-                            if (String.IsNullOrEmpty(jcard["multiverseid"].ToString()))
+                            if (string.IsNullOrEmpty(jcard["multiverseid"].ToString()))
                             {
+                                efile.Write(jcard["name"] + " has no multiverseid\n");
                                 continue;
-                                
                             }
                             //pHash
 
@@ -110,10 +105,9 @@ namespace ImageDBBuilder
                             if (!File.Exists(imageLocalJPG))
                             {
                                 //MessageBox.Show("File not found! " + imageLocalJPG);
-                                BeginInvoke(new Action(() =>
-                                {
-                                    gui.logBox.AppendText(imageLocalJPG + " missing\n");
-                                }));
+                                BeginInvoke(new Action(() => { gui.logBox.AppendText(imageLocalJPG + " missing\n"); }));
+
+                                efile.Write(imageLocalJPG + " missing\n");
                                 continue;
                             }
 
@@ -124,7 +118,10 @@ namespace ImageDBBuilder
 
                             Phash.ph_dct_imagehash(imageLocalJPG, ref pHash);
 
-                            SQLiteCommand insertSQL = new SQLiteCommand("INSERT INTO cards (id, Name, Edition, pHash) VALUES (@p1, @p2, @p3, @p4)", csql.sql);
+                            var insertSQL =
+                                new SQLiteCommand(
+                                    "INSERT INTO cards (id, Name, Edition, pHash) VALUES (@p1, @p2, @p3, @p4)",
+                                    csql.sql);
 
                             insertSQL.Parameters.AddWithValue("@p1", jcard["multiverseid"].ToString());
                             insertSQL.Parameters.AddWithValue("@p2", jcard["name"].ToString());
@@ -144,6 +141,7 @@ namespace ImageDBBuilder
                         {
                             // just catch
                             //MessageBox.Show(e.Message);
+                            efile.Write(e.Message + "\n");
                         }
                 }
 
@@ -153,7 +151,7 @@ namespace ImageDBBuilder
 
                 //file.Write(jsonData.ToString());
 
-                //file.Close();
+                efile.Close();
             }
             catch (Exception e)
             {
@@ -173,7 +171,6 @@ namespace ImageDBBuilder
             purgeDB();
 
             Task.Run(() => processImages(this, sql));
-
         }
 
         public class Phash

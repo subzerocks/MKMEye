@@ -32,7 +32,6 @@
             this.Label = new System.Windows.Forms.Label();
             this.logBox = new System.Windows.Forms.TextBox();
             this.pathBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.postfixBox = new System.Windows.Forms.TextBox();
             this.Postfix = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -59,12 +58,12 @@
             // 
             // logBox
             // 
-            this.logBox.Location = new System.Drawing.Point(12, 25);
+            this.logBox.Location = new System.Drawing.Point(16, 12);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(572, 342);
+            this.logBox.Size = new System.Drawing.Size(568, 355);
             this.logBox.TabIndex = 3;
             // 
             // pathBox
@@ -74,16 +73,6 @@
             this.pathBox.Size = new System.Drawing.Size(335, 20);
             this.pathBox.TabIndex = 0;
             this.pathBox.Text = "E:\\";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(572, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "*** ONLY USE THIS TOOL IF YOU KNOW WHAT YOU ARE DOING OR YOU WILL DESTROY YOUR PH" +
-    "ASH DB ***";
             // 
             // postfixBox
             // 
@@ -106,10 +95,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 464);
+            this.ClientSize = new System.Drawing.Size(599, 464);
             this.Controls.Add(this.Postfix);
             this.Controls.Add(this.postfixBox);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.Label);
             this.Controls.Add(this.buildButton);
@@ -126,7 +114,6 @@
         private System.Windows.Forms.Label Label;
         private System.Windows.Forms.TextBox logBox;
         private System.Windows.Forms.TextBox pathBox;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox postfixBox;
         private System.Windows.Forms.Label Postfix;
     }

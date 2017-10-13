@@ -35,8 +35,8 @@
 
 -->
 <config>
-    <appToken></appToken>
-    <appSecret></appSecret>
-    <accessToken></accessToken>
-    <accessSecret></accessSecret>
+  <appToken></appToken>
+  <appSecret></appSecret>
+  <accessToken></accessToken>
+  <accessSecret></accessSecret>
 </config>

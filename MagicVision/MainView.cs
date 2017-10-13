@@ -53,7 +53,6 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
 using DirectX.Capture;
-using ImageFormat = System.Drawing.Imaging.ImageFormat;
 using Point = System.Drawing.Point;
 
 namespace MKMEye
@@ -64,6 +63,10 @@ namespace MKMEye
         private readonly Filters cameraFilters = new Filters();
         private readonly List<MagicCard> magicCards = new List<MagicCard>();
         public readonly List<ReferenceCard> referenceCards = new List<ReferenceCard>();
+
+        // detecting matrix, stores detected cards to avoid fail detection
+        private Dictionary<string, int> bestMatches = new Dictionary<string, int>();
+
         private Bitmap cameraBitmap;
         private Bitmap cameraBitmapLive;
         private Capture capture;
@@ -75,18 +78,17 @@ namespace MKMEye
         private Bitmap filteredBitmap;
         public double fScaleFactor;
 
+        private bool initalMKMGet;
+
         //prevent multiple events
         private bool keystroke;
 
         private List<MagicCard> magicCardsLastFrame = new List<MagicCard>();
-        private SQLiteClient ssSql;
+        private readonly SQLiteClient ssSql;
+
+        private readonly Timer timer1;
 
         private XmlDocument xResult = new XmlDocument();
-
-        private Timer timer1;
-
-        // detecting matrix, stores detected cards to avoid fail detection
-        private Dictionary<string, int> bestMatches = new Dictionary<string, int>();
 
         public MainView()
         {
@@ -117,7 +119,7 @@ namespace MKMEye
             scanDataView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             scanDataView.Columns[5].ReadOnly = true;
 
-            DataGridViewCheckBoxColumn foilColumn = new DataGridViewCheckBoxColumn();
+            var foilColumn = new DataGridViewCheckBoxColumn();
 
             foilColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             foilColumn.CellTemplate = new DataGridViewCheckBoxCell();
@@ -128,7 +130,7 @@ namespace MKMEye
 
             scanDataView.Columns.Add(foilColumn);
 
-            DataGridViewCheckBoxColumn signedColumn = new DataGridViewCheckBoxColumn();
+            var signedColumn = new DataGridViewCheckBoxColumn();
 
             signedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             signedColumn.CellTemplate = new DataGridViewCheckBoxCell();
@@ -139,7 +141,7 @@ namespace MKMEye
 
             scanDataView.Columns.Add(signedColumn);
 
-            DataGridViewCheckBoxColumn playsetColumn = new DataGridViewCheckBoxColumn();
+            var playsetColumn = new DataGridViewCheckBoxColumn();
 
             playsetColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             playsetColumn.CellTemplate = new DataGridViewCheckBoxCell();
@@ -188,7 +190,7 @@ namespace MKMEye
             }
 
             timer1 = new Timer();
-            timer1.Tick += new EventHandler(GarbageFire);
+            timer1.Tick += GarbageFire;
             timer1.Interval = 3000; // in miliseconds
             timer1.Start();
         }
@@ -305,7 +307,8 @@ namespace MKMEye
                          */
 
                         // Hack to prevent it from detecting smaller sections of the card instead of the whole card
-                        if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor)) //fScaleFactor
+                        if (GetArea(corners) < Convert.ToInt32(double.Parse(treasholdBox.Text) * fScaleFactor)
+                        ) //fScaleFactor
                             continue;
 
                         cardPositions.Add(corners[0]);
@@ -318,7 +321,7 @@ namespace MKMEye
                         //var transformFilter = new QuadrilateralTransformation(corners, 600, 800);
 
                         var transformFilter = new QuadrilateralTransformation(corners,
-                        Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
+                            Convert.ToInt32(211 * fScaleFactor), Convert.ToInt32(298 * fScaleFactor));
 
                         cardBitmap = transformFilter.Apply(cameraBitmap);
 
@@ -420,7 +423,8 @@ namespace MKMEye
             fScaleFactor = Convert.ToDouble(capture.FrameSize.Height) / 480;
 
             logBox.AppendText("camera max at " + maxSize.Width + "/" + maxSize.Height + "\n");
-            logBox.AppendText("running at " + capture.FrameSize.Width + "/" + capture.FrameSize.Height + " (Factor " + fScaleFactor + ")\n");
+            logBox.AppendText("running at " + capture.FrameSize.Width + "/" + capture.FrameSize.Height + " (Factor " +
+                              fScaleFactor + ")\n");
 
             //capture.FrameSize = maxSize;
             capture.PreviewWindow = cam;
@@ -456,7 +460,7 @@ namespace MKMEye
                 magicCardsLastFrame = new List<MagicCard>(magicCards);
                 magicCards.Clear();
                 cameraBitmap = e;
-                cameraBitmapLive = (Bitmap)cameraBitmap.Clone();
+                cameraBitmapLive = (Bitmap) cameraBitmap.Clone();
                 detectQuads(cameraBitmap);
                 matchCard();
 
@@ -503,9 +507,7 @@ namespace MKMEye
                 }
 
 
-
-
-                if ((bestMatch != null))
+                if (bestMatch != null)
                 {
                     var g = Graphics.FromImage(cameraBitmap);
                     g.DrawString(currentMatch, new Font("Tahoma", 25), Brushes.Black,
@@ -520,46 +522,32 @@ namespace MKMEye
 #endif
 
                     if (bestMatches.ContainsKey(bestMatch.cardId))
-                    {
                         bestMatches[bestMatch.cardId] += 1;
-
-                        //Console.WriteLine("DEBUG: Plused " + bestMatch.name + " in matrix.");
-                    }
                     else
-                    {
                         bestMatches[bestMatch.cardId] = 1;
-
-                        //Console.WriteLine("DEBUG: Added " + bestMatch.name + " to matrix.");
-                    }
 
                     //Console.WriteLine("DEBUG: Checking " + bestMatches[bestMatch.cardId]);
 
 
-                    int maxValue = 0;
+                    var maxValue = 0;
                     string bestMatchId = null;
 
                     foreach (var match in bestMatches)
-                    {
                         if (match.Value > maxValue)
                         {
                             maxValue = match.Value;
                             bestMatchId = match.Key;
                         }
-                    }
 
                     if (bestMatchId != bestMatch.cardId)
-                    {
                         continue;
-                    }
-
                 }
 
-                if ((bestMatch != null))
+                if (bestMatch != null)
                 {
                     card.referenceCard = bestMatch;
 
                     currentMatch = bestMatch.name;
-
 
 
                     // highly experimental
@@ -600,7 +588,8 @@ namespace MKMEye
                 bestMatches = new Dictionary<string, int>();
             }
 
-            scanDataView.Rows.Add(nameLabel.Text, editionLabel.Text, priceBox.Text, langCombo.Text, conditionCombo.Text, pidLabel.Text);
+            scanDataView.Rows.Add(nameLabel.Text, editionLabel.Text, priceBox.Text, langCombo.Text, conditionCombo.Text,
+                pidLabel.Text);
 
             logBox.AppendText(nameLabel.Text + " added to list\n");
         }
@@ -639,15 +628,12 @@ namespace MKMEye
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private bool initalMKMGet = false;
-
         private void checkMKMButton_Click(object sender, EventArgs e)
         {
             CheckMKM();
             bestMatches = new Dictionary<string, int>();
 
             initalMKMGet = true;
-
         }
 
         private void loadProductAtIndex()
@@ -749,20 +735,18 @@ namespace MKMEye
         }
 
 
-
         private void addToListButton_Click(object sender, EventArgs e)
         {
             addToList();
-
         }
 
         private void deleteFromListButton_Click(object sender, EventArgs e)
         {
-            int row = scanDataView.CurrentCell.RowIndex;
+            var row = scanDataView.CurrentCell.RowIndex;
             scanDataView.Rows.RemoveAt(row);
         }
 
-        public static String GetTimestamp(DateTime value)
+        public static string GetTimestamp(DateTime value)
         {
             return value.ToString("yyyyMMddHHmmssffff");
         }
@@ -776,13 +760,11 @@ namespace MKMEye
 
             foreach (DataGridViewRow row in scanDataView.Rows)
             {
-
                 var cells = row.Cells.Cast<DataGridViewCell>();
                 sb.AppendLine(string.Join(";", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
-                
             }
 
-            string sFilename = @".\\export_" + GetTimestamp(DateTime.Now) + ".csv";
+            var sFilename = @".\\export_" + GetTimestamp(DateTime.Now) + ".csv";
 
             File.WriteAllText(sFilename, sb.ToString());
 
@@ -804,9 +786,7 @@ namespace MKMEye
     */
 
             foreach (DataGridViewRow row in scanDataView.Rows)
-            {
                 if (row.Cells[5].Value != "")
-                {
                     xBody += "<article><idProduct>" + row.Cells[5].Value + "</idProduct><idLanguage>" +
                              row.Cells[3].Value +
                              "</idLanguage>" +
@@ -818,10 +798,6 @@ namespace MKMEye
                              Convert.ToString(row.Cells[6].Value) + "</isFoil><isSigned>" +
                              Convert.ToString(row.Cells[7].Value) + "</isSigned><isPlayset>" +
                              Convert.ToString(row.Cells[8].Value) + "</isPlayset></article >";
-                }
-
-
-            }
 
             xBody += "</request>";
 
