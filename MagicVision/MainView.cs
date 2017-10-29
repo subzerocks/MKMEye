@@ -90,8 +90,11 @@ namespace MKMEye
 
         private XmlDocument xResult = new XmlDocument();
 
+        public int selectedCamIndex;
+
         public MainView()
         {
+
             InitializeComponent();
 
             KeyPreview = true;
@@ -402,7 +405,8 @@ namespace MKMEye
             targetPic.Location = new Point(0, 30);*/
 
             cameraBitmap = new Bitmap(800, 600);
-            capture = new Capture(cameraFilters.VideoInputDevices[cameraFilters.VideoInputDevices.Count - 1],
+
+            capture = new Capture(cameraFilters.VideoInputDevices[selectedCamIndex],
                 cameraFilters.AudioInputDevices[0]);
 
             var maxSize = capture.VideoCaps.MaxFrameSize;

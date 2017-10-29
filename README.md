@@ -2,6 +2,9 @@ MKMEYE
 
 ![MKMEye Logo](https://www.alexander-pick.com/github/logo.png)
 
+Important News:
+Now with updated 2017 database - AKH/HOU included!
+
 #### Whats is this?
 
 ![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_02.png)
@@ -34,6 +37,10 @@ I try my best but the tool to build an up2date database is included, you can bui
 
 
 #### Changelog
+
+29.10.2017
+- added a cam selection menu
+- DB updated to al the latest sets (finally!) including AER/HOU
 
 13.10.2017
 - many many improvements
