@@ -5,6 +5,10 @@ MKMEYE
 Important News:
 Now with updated 2017 database - AKH/HOU included!
 
+#### Latest Binary Version
+
+- [MKMEye 0.2b Ver. 4](https://www.alexander-pick.com/github/MKMEye-02b-Release_29102017.zip)
+
 #### Whats is this?
 
 ![MKMEye Logo](https://www.alexander-pick.com/github/mkmeye_02_screen_02.png)
@@ -58,16 +62,6 @@ I try my best but the tool to build an up2date database is included, you can bui
 
 11.04.17
 - inital release
-
-#### Quick Start & Downloads
-
-Here are some working binaries and the needed assets for your enjoyment. These are not updated with every push so this version might be a bit outdated towards the real source version:
-
-Latest Binary Version:
-
-- [MKMEye 02.b](https://www.alexander-pick.com/github/MKMEye-02b-Release_13102017.rar)
-
-The download includes a refrence DB from the day one of MTG to the end of 2016.
 
 #### The GUI has 5 Hotkeys
 
