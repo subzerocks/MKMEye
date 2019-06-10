@@ -1,4 +1,4 @@
-﻿/*
+/*
 	MKMEye
 
 	MKMEye developed by Alexander Pick - Copyright 2017
@@ -662,7 +662,7 @@ namespace MKMEye
 
                 editionLabel.Text = xProduct["expansionName"].InnerText;
 
-                var imageURL = "https://www.magickartenmarkt.de/" + xProduct["image"].InnerText;
+                var imageURL = "https://www.cardmarket.com/" + xProduct["image"].InnerText;
 
                 Console.WriteLine(imageURL);
 
@@ -670,7 +670,7 @@ namespace MKMEye
 
                 var xResultTmp =
                     MKM.makeRequest(
-                        "https://www.mkmapi.eu/ws/v2.0/products/" + xProduct["idProduct"].InnerText,
+                        "https://api.cardmarket.com/ws/v2.0/products/" + xProduct["idProduct"].InnerText,
                         "GET");
 
                 if (xResultTmp.ChildNodes.Count != 0)
@@ -684,7 +684,7 @@ namespace MKMEye
 
         private void CheckMKM()
         {
-            // https://www.mkmapi.eu/ws/v2.0/products/find?search=Springleaf&idGame=1&idLanguage=1
+            // https://api.cardmarket.com/ws/v2.0/products/find?search=Springleaf&idGame=1&idLanguage=1
 
             currentIndex = 1;
 
@@ -693,7 +693,7 @@ namespace MKMEye
             {
                 xResult =
                     MKM.makeRequest(
-                        "https://www.mkmapi.eu/ws/v2.0/products/find?search=" + sCardName + "&idGame=1&idLanguage=1",
+                        "https://api.cardmarket.com/ws/v2.0/products/find?search=" + sCardName + "&idGame=1&idLanguage=1",
                         "GET");
 
                 loadProductAtIndex();
@@ -713,7 +713,7 @@ namespace MKMEye
             /*
              3. Add an article to the user's stock:
 
-            POST https://www.mkmapi.eu/ws/v2.0/stock
+            POST https://api.cardmarket.com/ws/v2.0/stock
             */
 
             var xBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
@@ -725,7 +725,7 @@ namespace MKMEye
                         "</condition>" +
                         "<isFoil>false</isFoil><isSigned>false</isSigned><isPlayset>false</isPlayset></article></request>";
 
-            MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
+            MKM.makeRequest("https://api.cardmarket.com/ws/v2.0/stock", "POST", xBody);
         }
 
         private void addMKMButton_Click(object sender, EventArgs e)
@@ -805,7 +805,7 @@ namespace MKMEye
 
             xBody += "</request>";
 
-            MKM.makeRequest("https://www.mkmapi.eu/ws/v2.0/stock", "POST", xBody);
+            MKM.makeRequest("https://api.cardmarket.com/ws/v2.0/stock", "POST", xBody);
 
             MessageBox.Show("Article were added to the marketplace!");
         }
